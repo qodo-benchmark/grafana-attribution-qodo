@@ -42,7 +42,6 @@ func ProvideAppInstaller(
 		OrgService:    orgService,
 	}
 	appCfg := app.Config{
-		KubeConfig:     rest.Config{},
 		ManifestData:   *advisorapi.LocalManifest().ManifestData,
 		SpecificConfig: specificConfig,
 	}

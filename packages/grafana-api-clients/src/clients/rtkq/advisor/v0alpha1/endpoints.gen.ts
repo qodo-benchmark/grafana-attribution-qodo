@@ -844,7 +844,7 @@ export type CheckOperatorState = {
     };
   };
   /** lastEvaluation is the ResourceVersion last evaluated */
-  lastEvaluation: string;
+  lastEvaluation?: string;
   /** state describes the state of the lastEvaluation.
     It is limited to three possible states for machine evaluation. */
   state: 'success' | 'in_progress' | 'failed';
@@ -861,7 +861,7 @@ export type CheckReportFailure = {
   /** ID of the item that failed */
   itemID: string;
   /** Links to actions that can be taken to resolve the failure */
-  links: CheckErrorLink[];
+  links?: CheckErrorLink[];
   /** More information about the failure, not meant to be displayed to the user. Used for LLM suggestions. */
   moreInfo?: string;
   /** Severity of the failure */
@@ -887,13 +887,13 @@ export type CheckStatus = {
   operatorStates?: {
     [key: string]: CheckOperatorState;
   };
-  report: CheckReport;
+  report?: CheckReport;
 };
 export type Check = {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion: string;
+  apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind: string;
+  kind?: string;
   metadata: ObjectMeta;
   spec: CheckSpec;
   status?: CheckStatus;
@@ -981,7 +981,7 @@ export type CheckTypeOperatorState = {
     };
   };
   /** lastEvaluation is the ResourceVersion last evaluated */
-  lastEvaluation: string;
+  lastEvaluation?: string;
   /** state describes the state of the lastEvaluation.
     It is limited to three possible states for machine evaluation. */
   state: 'success' | 'in_progress' | 'failed';
@@ -1001,9 +1001,9 @@ export type CheckTypeStatus = {
 };
 export type CheckType = {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion: string;
+  apiVersion?: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind: string;
+  kind?: string;
   metadata: ObjectMeta;
   spec: CheckTypeSpec;
   status?: CheckTypeStatus;
