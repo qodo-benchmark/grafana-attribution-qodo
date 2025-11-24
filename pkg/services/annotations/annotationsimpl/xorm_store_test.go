@@ -700,7 +700,6 @@ func TestIntegrationAnnotationsAlwaysOnMigrations(t *testing.T) {
 		})
 		require.NoError(t, err)
 
-		xormMigrationTrigger = sync.Once{}
 		store := NewXormStore(cfg, l, sql, tagimpl.ProvideService(sql), prometheus.NewRegistry())
 
 		require.NotNil(t, store)
@@ -762,7 +761,6 @@ func TestIntegrationAnnotationsAlwaysOnMigrations(t *testing.T) {
 		})
 		require.NoError(t, err)
 
-		xormMigrationTrigger = sync.Once{}
 		store := NewXormStore(cfg, l, sql, tagimpl.ProvideService(sql), prometheus.NewRegistry())
 
 		require.NotNil(t, store)
