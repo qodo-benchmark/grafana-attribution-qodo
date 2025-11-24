@@ -2024,6 +2024,7 @@ func TestIntegrationDeleteFolderWithProvisionedDashboards(t *testing.T) {
 			ops.Dir, ops.DirPath = testinfra.CreateGrafDir(t, ops)
 			// Create provisioning directories
 			provDashboardsDir := fmt.Sprintf("%s/conf/provisioning/dashboards", ops.Dir)
+			os.MkdirAll(provDashboardsDir, 0o755)
 			provDashboardsCfg := fmt.Sprintf("%s/dev.yaml", provDashboardsDir)
 			blob := []byte(fmt.Sprintf(`
 apiVersion: 1
@@ -2035,7 +2036,7 @@ providers:
   folder: 'GrafanaCloud'
   options:
    path: %s`, provDashboardsDir))
-			err := os.WriteFile(provDashboardsCfg, blob, 0o644)
+			err := os.WriteFile(provDashboardsCfg, blob, 0o600)
 			require.NoError(t, err)
 			input, err := os.ReadFile(filepath.Join("testdata/dashboard.json"))
 			require.NoError(t, err)
@@ -2063,9 +2064,9 @@ providers:
 				assert.Equal(t, http.StatusOK, resp.Response.StatusCode)
 				assert.NoError(t, json.Unmarshal(resp.Body, &list))
 				assert.Equal(collect, list.TotalHits, int64(1), "Dashboard should be ready")
-				for _, d := range list.Hits {
-					folderUID = d.Folder
-					dashboardUID = d.Name
+				if len(list.Hits) > 0 {
+					folderUID = list.Hits[0].Folder
+					dashboardUID = list.Hits[0].Name
 				}
 			}, 10*time.Second, 25*time.Millisecond)
 
@@ -2085,7 +2086,9 @@ providers:
 				}
 			}
 
-			verifyDashboardExists(true)
+			if dashboardUID != "" {
+				verifyDashboardExists(true)
+			}
 
 			t.Run("Deletion should fail when forceDeleteRules=false with provisioned dashboards", func(t *testing.T) {
 				// Attempt to delete the parent folder without forceDeleteRules
@@ -2118,7 +2121,7 @@ providers:
 				require.Equal(t, http.StatusOK, parentDelete.Response.StatusCode, "deletion should succeed with forceDeleteRules")
 
 				// Verify folders was deleted
-				_, err := client.Resource.Get(context.Background(), folderUID, metav1.GetOptions{})
+				_, err = client.Resource.Get(context.Background(), folderUID, metav1.GetOptions{})
 				require.Error(t, err, "parent folder %s should not exist", folderUID)
 				// Verify provisioned dashboard is deleted
 				verifyDashboardExists(false)

