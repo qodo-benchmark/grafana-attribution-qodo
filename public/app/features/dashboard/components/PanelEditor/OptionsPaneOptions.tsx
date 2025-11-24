@@ -69,8 +69,8 @@ export const OptionsPaneOptions = (props: OptionPaneRenderProps) => {
           mainBoxElements.push(item.renderElement());
         }
 
-        for (const item of justOverrides) {
-          mainBoxElements.push(item.renderElement());
+        for (const override of justOverrides) {
+          mainBoxElements.push(override.renderElement());
         }
         break;
       case OptionFilter.Overrides:
@@ -79,6 +79,7 @@ export const OptionsPaneOptions = (props: OptionPaneRenderProps) => {
         }
         break;
       case OptionFilter.Recent:
+        const recentOptions = getRecentOptions(allOptions);
         mainBoxElements.push(
           <OptionsPaneCategory
             id="Recent options"
@@ -86,7 +87,7 @@ export const OptionsPaneOptions = (props: OptionPaneRenderProps) => {
             key="Recent options"
             forceOpen={true}
           >
-            {getRecentOptions(allOptions).map((item) => item.renderElement())}
+            {recentOptions.map((item) => item.renderElement())}
           </OptionsPaneCategory>
         );
         break;

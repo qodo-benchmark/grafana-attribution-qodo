@@ -388,7 +388,7 @@ export class Scene {
 
     const sceneDiv = (
       <>
-        {this.connections.renderElement()}
+        {this.connections.render()}
         {this.root.renderElement()}
         {this.isEditingEnabled && (
           <Portal>
