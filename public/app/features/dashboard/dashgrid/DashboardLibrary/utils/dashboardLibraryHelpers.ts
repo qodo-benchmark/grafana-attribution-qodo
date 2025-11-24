@@ -26,7 +26,9 @@ function panelDatasourceTypes(vizPanel: VizPanel) {
   const queryRunner = getQueryRunnerFor(vizPanel);
   if (queryRunner) {
     for (const q of queryRunner.state.queries) {
-      types.add(q.datasource?.type ?? '');
+      if (q.datasource?.type) {
+        types.add(q.datasource.type);
+      }
     }
   }
 

