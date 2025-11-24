@@ -247,7 +247,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       overflow: 'hidden', // Let AutoSizer handle the overflow
     }),
     summaryContainer: css({
-      minHeight: summaryHeight,
+      height: summaryHeight,
       marginBottom: theme.spacing(2),
     }),
     headerContainer: css({

