@@ -186,7 +186,8 @@ export class TraceAdHocFiltersController implements AdHocFiltersController {
     const items = this.search.adhocFilters || [];
     const filters = items.map(toAdHocFilterWithLabels);
 
-    const updatedFilters = filters.filter((f) => !isEqual(f, filter));
+    const index = filters.findIndex((f) => isEqual(f, filter));
+    const updatedFilters = filters.filter((f, i) => i !== index);
 
     this.setSearch({
       ...this.search,

