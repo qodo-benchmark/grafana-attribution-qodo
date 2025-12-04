@@ -216,14 +216,16 @@ func (b *DataSourceAPIBuilder) UpdateAPIGroupInfo(apiGroupInfo *genericapiserver
 	storage["connections/query"] = storage[ds.StoragePath("query")] // deprecated in openapi
 
 	if b.configCrudUseNewApis {
+		dsConfigMetric := metricutil.NewHistogramVec(prometheus.HistogramOpts{
+			Namespace: "grafana",
+			Name:      "ds_config_handler_requests_duration_seconds",
+			Help:      "Duration of requests handled by datasource configuration handlers",
+		}, []string{"code_path", "handler"})
+
 		legacyStore := &legacyStorage{
-			datasources:  b.datasources,
-			resourceInfo: &ds,
-			dsConfigHandlerRequestsDuration: metricutil.NewHistogramVec(prometheus.HistogramOpts{
-				Namespace: "grafana",
-				Name:      "ds_config_handler_requests_duration_seconds",
-				Help:      "Duration of requests handled by datasource configuration handlers",
-			}, []string{"code_path", "handler"}),
+			datasources:                     b.datasources,
+			resourceInfo:                    &ds,
+			dsConfigHandlerRequestsDuration: dsConfigMetric,
 		}
 		unified, err := grafanaregistry.NewRegistryStore(opts.Scheme, ds, opts.OptsGetter)
 		if err != nil {

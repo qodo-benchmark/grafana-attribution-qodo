@@ -85,12 +85,12 @@ func (s *legacyStorage) Create(ctx context.Context, obj runtime.Object, createVa
 
 // Update implements rest.Updater.
 func (s *legacyStorage) Update(ctx context.Context, name string, objInfo rest.UpdatedObjectInfo, createValidation rest.ValidateObjectFunc, updateValidation rest.ValidateObjectUpdateFunc, forceAllowCreate bool, options *metav1.UpdateOptions) (runtime.Object, bool, error) {
+	old, err := s.Get(ctx, name, &metav1.GetOptions{})
+
 	start := time.Now()
 	defer func() {
-		metricutil.ObserveWithExemplar(ctx, s.dsConfigHandlerRequestsDuration.WithLabelValues("new", "Create"), time.Since(start).Seconds())
+		metricutil.ObserveWithExemplar(ctx, s.dsConfigHandlerRequestsDuration.WithLabelValues("new", "Update"), time.Since(start).Seconds())
 	}()
-
-	old, err := s.Get(ctx, name, &metav1.GetOptions{})
 	if err != nil {
 		return nil, false, err
 	}
@@ -128,7 +128,7 @@ func (s *legacyStorage) Update(ctx context.Context, name string, objInfo rest.Up
 func (s *legacyStorage) Delete(ctx context.Context, name string, deleteValidation rest.ValidateObjectFunc, options *metav1.DeleteOptions) (runtime.Object, bool, error) {
 	start := time.Now()
 	defer func() {
-		metricutil.ObserveWithExemplar(ctx, s.dsConfigHandlerRequestsDuration.WithLabelValues("new", "Create"), time.Since(start).Seconds())
+		metricutil.ObserveWithExemplar(ctx, s.dsConfigHandlerRequestsDuration.WithLabelValues("new", "Delete"), time.Since(start).Seconds())
 	}()
 
 	err := s.datasources.DeleteDataSource(ctx, name)
