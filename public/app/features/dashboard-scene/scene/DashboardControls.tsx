@@ -229,7 +229,7 @@ function getStyles(theme: GrafanaTheme2) {
       position: 'unset',
     }),
     rightControls: css({
-      display: 'flex',
+      display: 'inline-flex',
       justifyContent: 'flex-end',
       gap: theme.spacing(1),
       marginBottom: theme.spacing(1),
