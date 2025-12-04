@@ -74,7 +74,7 @@ export function DashboardEditPaneRenderer({ editPane, dashboard, isDocked }: Pro
               title={t('dashboard.sidebar.dashboard-options.title', 'Options')}
               tooltip={t('dashboard.sidebar.dashboard-options.tooltip', 'Dashboard options')}
               data-testid={selectors.pages.Dashboard.Sidebar.optionsButton}
-              active={selectedObject === dashboard ? true : false}
+              active={selectedObject === dashboard}
             />
             <Sidebar.Button
               tooltip={t('dashboard.sidebar.edit-schema.tooltip', 'Edit as code')}

