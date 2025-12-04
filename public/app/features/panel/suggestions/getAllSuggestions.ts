@@ -84,7 +84,7 @@ export async function getAllSuggestions(
     if (mappedA && builder.dataSummary.hasPreferredVisualisationType(mappedA)) {
       return -1;
     }
-    const mappedB = mapPreferredVisualisationTypeToPlugin(a.pluginId);
+    const mappedB = mapPreferredVisualisationTypeToPlugin(b.pluginId);
     if (mappedB && builder.dataSummary.hasPreferredVisualisationType(mappedB)) {
       return 1;
     }

