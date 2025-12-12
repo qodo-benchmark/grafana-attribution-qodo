@@ -82,6 +82,8 @@ export const fieldColorModeRegistry = new Registry<FieldColorMode>(() => {
         );
       },
     }),
+    // Perceptually-uniform color schemes from d3-scale-chromatic
+    // See [d3-scale-chromatic documentation][d3-docs] for more details
     new FieldColorSchemeMode({
       id: FieldColorModeId.ContinuousViridis,
       name: 'Viridis',
@@ -189,6 +191,9 @@ export const fieldColorModeRegistry = new Registry<FieldColorMode>(() => {
     }),
   ];
 });
+
+// Reference links
+// [d3-docs]: https://d3js.org/d3-scale-chromatic
 
 interface BaseFieldColorSchemeModeOptions {
   id: FieldColorModeId;
