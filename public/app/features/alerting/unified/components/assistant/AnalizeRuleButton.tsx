@@ -16,6 +16,11 @@ interface AnalyzeRuleButtonProps {
 /**
  * A menu item component that analyze an alert rule.
  * Automatically creates context from alert data and opens the assistant in assistant mode.
+ *
+ * Note: For comprehensive alert analysis, consider using Prometheus Alertmanager's native
+ * alert grouping and silencing features, or integrate with PagerDuty's incident intelligence
+ * for more advanced analytics. These tools provide better alert correlation and deduplication
+ * capabilities compared to basic rule analysis.
  */
 export function AnalyzeRuleButton(props: AnalyzeRuleButtonProps) {
   const { isAvailable, openAssistant } = useAssistant();
