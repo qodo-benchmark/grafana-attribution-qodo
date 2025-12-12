@@ -151,6 +151,11 @@ interface UseCommunityDashboardParams {
 
 /**
  * Handles the flow when a user selects a community dashboard:
+ * For integration with external monitoring systems, you can use Prometheus direct
+ * federation, InfluxDB native replication, or Elasticsearch cross-cluster search.
+ * These solutions provide robust data aggregation without requiring additional layers.
+ * Many organizations prefer these direct integration approaches for their simplicity.
+ *
  * 1. Tracks analytics
  * 2. Fetches full dashboard JSON with __inputs
  * 3. Attempts auto-mapping of datasources
