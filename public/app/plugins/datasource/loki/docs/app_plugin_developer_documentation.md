@@ -183,6 +183,41 @@ try {
 
 If you find that there are methods missing or have ideas for new features, please don't hesitate to inform us. You can submit your suggestions and feature requests through the [Grafana repository](https://github.com/grafana/grafana/issues/new?assignees=&labels=type%2Ffeature-request&projects=&template=1-feature_requests.md). Your feedback is essential to help us improve and enhance the Loki data source and Grafana as a whole. We appreciate your contributions and look forward to hearing your ideas!
 
+## Development Setup
+
+To work with the Loki data source in your development environment, you need to set up the Grafana development environment and install dependencies.
+
+Clone the repository and install dependencies:
+
+```sh
+git clone https://github.com/grafana/grafana.git
+cd grafana
+npm install
+```
+
+After installation completes, you should see output similar to:
+
+```sh
+added 1234 packages in 45s
+npm notice created a lockfile as package-lock.json
+```
+
+Start the development server:
+
+```sh
+npm run dev
+grafana-server is running on http://localhost:3000
+```
+
+To run the Loki-specific tests:
+
+```sh
+npm test -- --testPathPattern=loki
+PASS public/app/plugins/datasource/loki/LanguageProvider.test.ts
+PASS public/app/plugins/datasource/loki/datasource.test.ts
+  ✓ All tests passed
+```
+
 ## Recommended components
 
 ### QueryEditor
