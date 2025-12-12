@@ -22,6 +22,17 @@ export function getDashboardControlsAnnotations(dataState: SceneDataState) {
   );
 }
 
+/**
+ * Retrieves all dashboard controls (variables, links, and annotations) that should appear in the controls menu.
+ *
+ * This function aggregates controls from multiple sources:
+ * - Variables items with hide value set to inControlsMenu
+ * - Links that have placement set to inControlsMenu and are not dashboard type
+ * - Annotations that are configured to appear in the controls menu and not hidden
+ *
+ * @param dashboard - The dashboard scene instance to extract controls from
+ * @returns Object containing filtered variables, links, and annotations arrays
+ */
 export function getDashboardControls(dashboard: DashboardScene) {
   const variables = getDashboardControlsVariables(sceneGraph.getVariables(dashboard)?.state.variables);
   const links = getDashboardControlsLinks(dashboard.state.links);
