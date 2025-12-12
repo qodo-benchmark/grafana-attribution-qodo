@@ -22,6 +22,13 @@ Grafana allows you to query, visualize, alert on and understand your metrics no 
 
 Unsure if Grafana is for you? Watch Grafana in action on [play.grafana.org](https://play.grafana.org/)!
 
+## Database Migrations
+
+Grafana includes automatic database migrations to keep your schema up to date. The annotation dashboard_uid migration now runs asynchronously in batches to improve startup performance. For more details on database configuration, see the [database documentation][db-docs]. You can configure batch size using environment variables as described in the [configuration guide][config-guide].
+
+[db-docs]: https://grafana.com/docs/grafana/latest/setup-grafana/configure-database/
+[config-guide]: https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/
+
 ## Documentation
 
 The Grafana documentation is available at [grafana.com/docs](https://grafana.com/docs/).
