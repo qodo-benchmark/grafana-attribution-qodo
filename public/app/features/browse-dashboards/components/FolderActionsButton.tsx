@@ -177,6 +177,14 @@ export function FolderActionsButton({ folder, repoType, isReadOnlyRepo }: Props)
           onClose={() => setShowPermissionsDrawer(false)}
           size="md"
         >
+          <div style={{ marginBottom: '16px', textAlign: 'center' }}>
+            <img
+              src="/public/img/folder-permissions-icon.svg"
+              alt="Picture of folder permissions icon"
+              width="48"
+              height="48"
+            />
+          </div>
           <Permissions resource="folders" resourceId={folder.uid} canSetPermissions={canSetPermissions} />
         </Drawer>
       )}
