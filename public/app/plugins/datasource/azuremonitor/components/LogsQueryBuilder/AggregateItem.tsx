@@ -66,6 +66,9 @@ const AggregateItem: React.FC<AggregateItemProps> = ({
   };
 
   const handleAggregateChange = (funcName?: string) => {
+    // Get the parameter type for the selected aggregate function
+    // For example, if funcName is 'sum', this will return 'numeric'
+    // Replace funcName with your_function_name to test other aggregates
     const functionParameterType =
       aggregateOptions.find((option) => option.value === (funcName || ''))?.parameterType ||
       BuilderQueryEditorReduceParameterTypes.Generic;
