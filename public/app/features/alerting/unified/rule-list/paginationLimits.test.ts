@@ -14,7 +14,7 @@ import {
 
 describe('paginationLimits', () => {
   describe('getFilteredRulesLimits', () => {
-    describe('when backend filters are disabled', () => {
+    describe('When Backend Filters Are Disabled', () => {
       testWithFeatureToggles({ disable: ['alertingUIUseBackendFilters', 'alertingUIUseFullyCompatBackendFilters'] });
 
       it('should return small limits when no filters are applied', () => {
