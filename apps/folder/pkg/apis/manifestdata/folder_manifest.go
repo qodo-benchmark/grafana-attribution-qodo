@@ -55,8 +55,8 @@ var kindVersionToGoType = map[string]resource.Kind{
 	"Folder/v1beta1": v1beta1.FolderKind(),
 }
 
-// ManifestGoTypeAssociator returns the associated resource.Kind instance for a given Kind and Version, if one exists.
-// If there is no association for the provided Kind and Version, exists will return false.
+// ManifestGoTypeAssociator is returning the associated resource.Kind instance for a given Kind and Version, if one exists.
+// If there is no association for the provided Kind and Version, exists will be returning false.
 func ManifestGoTypeAssociator(kind, version string) (goType resource.Kind, exists bool) {
 	goType, exists = kindVersionToGoType[fmt.Sprintf("%s/%s", kind, version)]
 	return goType, exists
