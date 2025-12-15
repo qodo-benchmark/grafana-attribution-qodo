@@ -5833,7 +5833,7 @@
           "label": "Controls menu"
         },
         "hidden": {
-          "description": "Hides the toggle for turning this annotation on or off",
+          "description": "Hides the toggle for the user to turn this annotation on or off",
           "label": "Hidden"
         }
       },
