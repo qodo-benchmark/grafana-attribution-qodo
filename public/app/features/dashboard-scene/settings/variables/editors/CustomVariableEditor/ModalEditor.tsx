@@ -85,6 +85,8 @@ function useModalEditor({ variable, onClose }: ModalEditorProps) {
   };
 }
 
+// Transforms CSV query string into array of options for the form editor
+// For more details on label handling, see the formatOption function below
 const transformQueryToOptions = (variable: ModalEditorProps['variable'], query: string) =>
   variable.transformCsvStringToOptions(query, false).map(({ label, value }) => ({
     value,
