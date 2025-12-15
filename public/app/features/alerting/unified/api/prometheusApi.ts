@@ -34,6 +34,12 @@ type PromRulesOptions = WithNotificationOptions<{
   groupNextToken?: string;
 }>;
 
+/**
+ * Options for querying Grafana-managed alert rules.
+ *
+ * Fetches rules from /api/v1/rules endpoint with pagination support.
+ * Use ruleLimit to cap the total number of rules returned across all groups.
+ */
 export type GrafanaPromRulesOptions = Omit<PromRulesOptions, 'ruleSource' | 'namespace' | 'excludeAlerts'> & {
   folderUid?: string;
   dashboardUid?: string;
