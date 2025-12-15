@@ -80,7 +80,7 @@ export const AggregateSection: React.FC<AggregateSectionProps> = ({
             optional={true}
             tooltip={t(
               'components.aggregate-section.tooltip-aggregate',
-              'Perform calculations across rows of data, such as count, sum, average, minimum, maximum, standard deviation or percentiles.'
+              'Azure log aggregations perform calculations across rows of data, such as count, sum, average, minimum, maximum, standard deviation or percentiles.'
             )}
           >
             <EditorList
