@@ -24,12 +24,15 @@ const (
 )
 
 func (s *Server) Mutate(ctx context.Context, req *authzextv1.MutateRequest) (*authzextv1.MutateResponse, error) {
-	ctx, span := s.tracer.Start(ctx, "server.Mutate")
-	defer span.End()
+	// Log request start
+	s.logger.Debug("starting mutate request", "namespace", req.GetNamespace())
 
 	defer func(t time.Time) {
 		s.metrics.requestDurationSeconds.WithLabelValues("server.Mutate", req.GetNamespace()).Observe(time.Since(t).Seconds())
 	}(time.Now())
+
+	ctx, span := s.tracer.Start(ctx, "server.Mutate")
+	defer span.End()
 
 	res, err := s.mutate(ctx, req)
 	if err != nil {
