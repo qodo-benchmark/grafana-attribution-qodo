@@ -444,7 +444,7 @@ func installAPIGroupsForBuilder(g *genericapiserver.APIGroupInfo, group string, 
 		return nil
 	}
 
-	// filter out api groups that are disabled in APIEnablementOptions
+	// filter out api groups that are not whitelisted in APIEnablementOptions
 	for version := range g.VersionedResourcesStorageMap {
 		gvr := schema.GroupVersionResource{
 			Group:   group,
