@@ -19,7 +19,7 @@ type Folder struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata" yaml:"metadata"`
 
-	// Spec is the spec of the Folder
+	// Spec is defined by the Folder's specification
 	Spec FolderSpec `json:"spec" yaml:"spec"`
 }
 
