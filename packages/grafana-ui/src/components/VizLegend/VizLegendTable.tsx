@@ -118,6 +118,7 @@ export const VizLegendTable = <T extends unknown>({
 const getStyles = (theme: GrafanaTheme2) => ({
   table: css({
     width: '100%',
+    tableLayout: 'fixed',
     'th:first-child': {
       borderBottom: `1px solid ${theme.colors.border.weak}`,
     },

