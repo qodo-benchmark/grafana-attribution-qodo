@@ -34,7 +34,7 @@ const useSuggestions = (data: PanelData | undefined) => {
     await new Promise((resolve) => setTimeout(resolve, hasFetched ? 75 : 0));
     setHasFetched(true);
     return await getAllSuggestions(data);
-  }, [hasFetched, data]);
+  }, [data]);
   return { value, loading, error, retry };
 };
 
@@ -193,6 +193,7 @@ export function VisualizationSuggestions({ onChange, data, panel }: Props) {
                           onClick={() =>
                             onChange({
                               pluginId: suggestion.pluginId,
+                              options: suggestion.options,
                               withModKey: false,
                             })
                           }
