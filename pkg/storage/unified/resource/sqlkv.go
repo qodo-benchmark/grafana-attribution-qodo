@@ -557,7 +557,7 @@ func (k *sqlKV) BatchDelete(ctx context.Context, section string, keys []string) 
 }
 
 func (k *sqlKV) UnixTimestamp(ctx context.Context) (int64, error) {
-	return time.Now().Unix(), nil
+	return time.Now().UTC().Unix(), nil
 }
 
 func closeRows[T any](rows db.Rows, yield func(T, error) bool) {

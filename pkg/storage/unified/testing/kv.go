@@ -196,7 +196,7 @@ func runTestKVSave(t *testing.T, kv resource.KV, nsPrefix string) {
 
 		// Overwrite
 		newValue := "new value"
-		saveKVHelper(t, kv, ctx, section, overwriteKey, strings.NewReader(newValue))
+		saveKVHelper(t, kv, ctx, testSection, overwriteKey, strings.NewReader(newValue))
 
 		// Verify it was updated
 		reader, err := kv.Get(ctx, section, overwriteKey)
@@ -505,11 +505,11 @@ func runTestKVKeysWithSort(t *testing.T, kv resource.KV, nsPrefix string) {
 
 func runTestKVConcurrent(t *testing.T, kv resource.KV, nsPrefix string) {
 	ctx := testutil.NewTestContext(t, time.Now().Add(60*time.Second))
-	nsPrefix += "-concurrent"
 
 	// Test concurrent operations for both sections, as they have different behaviours
 	// in the sqlkv implementation.
 	for _, testSection := range []string{"unified/data", "unified/events"} {
+		nsPrefix += "-concurrent"
 		t.Run(testSection, func(t *testing.T) {
 			t.Run("concurrent save and get operations", func(t *testing.T) {
 				const numGoroutines = 10
@@ -598,7 +598,9 @@ func runTestKVConcurrent(t *testing.T, kv resource.KV, nsPrefix string) {
 
 						// List to verify it exists
 						found := false
-						for k, err := range kv.Keys(ctx, testSection, resource.ListOptions{}) {
+						for k, err := range kv.Keys(ctx, testSection, resource.ListOptions{
+							StartKey: nsPrefix,
+						}) {
 							if err != nil {
 								return
 							}
