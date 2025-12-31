@@ -19,7 +19,7 @@ export const VariableValuesPreview = ({ options }: VariableValuesPreviewProps) =
       event.preventDefault();
       setPreviewLimit(previewLimit + 20);
     },
-    [previewLimit, setPreviewLimit]
+    [previewLimit]
   );
   const styles = useStyles2(getStyles);
   useEffect(() => setPreviewOptions(options.slice(0, previewLimit)), [previewLimit, options]);

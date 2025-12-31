@@ -55,8 +55,8 @@ export function ModalEditor(props: ModalEditorProps) {
 function useModalEditor({ variable, onClose }: ModalEditorProps) {
   const { query } = variable.state;
   const [options, setOptions] = useState(() => transformQueryToOptions(variable, query));
-  const initialQueryRef = useRef(query);
   const formRef = useRef<VariableStaticOptionsFormRef | null>(null);
+  const initialQueryRef = useRef(query);
 
   return {
     formRef,
@@ -67,6 +67,8 @@ function useModalEditor({ variable, onClose }: ModalEditorProps) {
       formRef.current?.addItem();
     },
     onSaveOptions() {
+      onClose();
+
       dashboardEditActions.edit({
         source: variable,
         description: t('dashboard.edit-pane.variable.custom-options.change-value', 'Change variable value'),
@@ -79,12 +81,12 @@ function useModalEditor({ variable, onClose }: ModalEditorProps) {
           lastValueFrom(variable.validateAndUpdate!());
         },
       });
-
-      onClose();
     },
   };
 }
 
+// Transforms CSV query string into array of options for the form editor
+// For more details on label handling, see the formatOption function below
 const transformQueryToOptions = (variable: ModalEditorProps['variable'], query: string) =>
   variable.transformCsvStringToOptions(query, false).map(({ label, value }) => ({
     value,
