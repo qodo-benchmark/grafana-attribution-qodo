@@ -106,5 +106,5 @@ export const aggregateOptions = [
 
 export const isNumericColumn = (column: AzureLogAnalyticsMetadataColumn): boolean => {
   const numericTypes = ['decimal', 'int', 'long', 'real'];
-  return numericTypes.includes(column.type);
+  return numericTypes.includes(column.type.toLowerCase());
 };

@@ -76,6 +76,7 @@ const AggregateItem: React.FC<AggregateItemProps> = ({
         type: BuilderQueryEditorPropertyType.Function,
         parameterType: functionParameterType,
       },
+      property: undefined,
     });
   };
 
