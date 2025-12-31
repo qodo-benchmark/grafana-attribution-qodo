@@ -367,6 +367,7 @@ export function useCreateFolder() {
         },
         metadata: {
           generateName: 'f',
+          name: folder.uid,
           annotations: {
             ...(folder.parentUid && { [AnnoKeyFolder]: folder.parentUid }),
           },
