@@ -38,7 +38,7 @@ function getGrafanaFilterLimits(filterState: RulesFilter) {
   const backendFiltersEnabled = shouldUseFullyCompatibleBackendFilters() || shouldUseBackendFilters();
 
   const frontendFiltersInUse = hasGrafanaClientSideFilters(filterState);
-  const onlyBackendFiltersInUse = frontendFiltersInUse === false;
+  const onlyBackendFiltersInUse = !frontendFiltersInUse;
 
   if (backendFiltersEnabled && onlyBackendFiltersInUse) {
     return { ruleLimit: RULE_LIMIT_WITH_BACKEND_FILTERS };

