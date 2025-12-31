@@ -1,7 +1,5 @@
 # Dashboard migrations
 
-This document describes the Grafana dashboard migration system, focusing on conversion-level practices including metrics, logging, and testing infrastructure for API version conversions. For schema version migration implementation details, see the [SchemaVersion Migration Guide](./schemaversion/README.md).
-
 ## Table of Contents
 
 - [Overview](#overview)

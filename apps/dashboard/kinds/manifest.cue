@@ -15,7 +15,7 @@ manifest: {
 	versions: {
 		"v0alpha1": {
 			codegen: {
-				ts: {enabled: false}
+				ts: {enabled: true}
 				go: {enabled: true}
 			}
 			kinds: [
@@ -41,22 +41,6 @@ manifest: {
 					pluralName: "Dashboards"
 					schema: {
 						spec:   v1.DashboardSpec
-						status: DashboardStatus
-					}
-				}
-			]
-		}
-		"v2alpha1": {
-			codegen: {
-				ts: {enabled: false}
-				go: {enabled: true}
-			}
-			kinds: [
-				{
-					kind:       "Dashboard"
-					pluralName: "Dashboards"
-					schema: {
-						spec:   v2alpha1.DashboardSpec
 						status: DashboardStatus
 					}
 				}
