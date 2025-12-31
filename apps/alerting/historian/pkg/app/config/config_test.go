@@ -39,7 +39,7 @@ func TestRuntimeConfig(t *testing.T) {
 			args: []string{"--alerting.historian.notification.enabled"},
 			expected: RuntimeConfig{
 				Notification: NotificationConfig{
-					Enabled: true,
+					Enabled: false,
 					Loki: LokiConfig{
 						LokiConfig: lokiclient.LokiConfig{
 							ReadPathURL:    nil,

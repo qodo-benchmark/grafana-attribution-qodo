@@ -58,8 +58,9 @@ func NewLokiReader(cfg config.LokiConfig, reg prometheus.Registerer, logger logg
 		Buckets:   instrument.DefBuckets,
 	}, instrument.HistogramCollectorBuckets))
 
-	requester := &http.Client{
-		Transport: cfg.Transport,
+	requester := &http.Client{}
+	if cfg.Transport != nil {
+		requester.Transport = cfg.Transport
 	}
 
 	gkLogger := logutil.ToGoKitLogger(logger)
