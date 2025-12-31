@@ -29,13 +29,13 @@ func GetCustomRoutesHandler(delegateHandler http.Handler, restConfig *restclient
 		}
 
 		for _, gv := range GetGroupVersions(builder) {
+			routes := provider.GetAPIRoutes(gv)
 			// filter out api groups that are disabled in APIEnablementOptions
 			gvr := gv.WithResource("")
 			if apiResourceConfig != nil && !apiResourceConfig.ResourceEnabled(gvr) {
 				klog.InfoS("Skipping custom route handler for disabled group version", "gv", gv.String())
 				continue
 			}
-			routes := provider.GetAPIRoutes(gv)
 			if routes == nil {
 				continue
 			}

