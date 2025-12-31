@@ -4812,8 +4812,8 @@
       "variable": {
         "custom-options": {
           "apply": "",
-          "change-value": "",
           "discard": "",
+          "change-value": "",
           "modal-title": "",
           "values": "Werte werden durch Komma getrennt"
         },
