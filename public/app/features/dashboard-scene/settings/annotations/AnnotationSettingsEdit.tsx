@@ -120,7 +120,7 @@ export const AnnotationSettingsEdit = ({ annotation, editIndex, panels, onUpdate
       {
         ...annotation,
         placement: option.value === AnnotationControlsDisplay.InControlsMenu ? 'inControlsMenu' : undefined,
-        hide: option.value === AnnotationControlsDisplay.Hidden ? true : false,
+        hide: option.value === AnnotationControlsDisplay.Hidden,
       },
       editIndex
     );

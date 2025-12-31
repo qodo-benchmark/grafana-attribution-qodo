@@ -42,7 +42,7 @@ export function VariableDisplaySelect({ onChange, display, type, minWidth = 52 }
     ],
     []
   );
-  const value = useMemo(() => OPTIONS.find((o) => o.value === display)?.value ?? OPTIONS[0].value, [display, OPTIONS]);
+  const value = useMemo(() => OPTIONS.find((o) => o.value === display)?.value ?? OPTIONS[0].value, [display]);
 
   // Constant variables don't support display options
   if (type === 'constant') {

