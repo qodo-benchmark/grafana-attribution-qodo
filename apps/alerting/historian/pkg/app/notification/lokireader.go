@@ -25,12 +25,13 @@ import (
 )
 
 const (
-	LokiClientSpanName = "grafana.apps.alerting.historian.client"
-	defaultQueryRange  = 6 * time.Hour
-	defaultLimit       = 100
-	maxLimit           = 1000
-	Namespace          = "grafana"
-	Subsystem          = "alerting"
+	LokiClientSpanName      = "grafana.apps.alerting.historian.client"
+	defaultQueryRange       = 6 * time.Hour
+	defaultLimit            = 100
+	maxLimit                = 1000
+	defaultRequesterTimeout = 30 * time.Second
+	Namespace               = "grafana"
+	Subsystem               = "alerting"
 )
 
 var (
@@ -58,8 +59,14 @@ func NewLokiReader(cfg config.LokiConfig, reg prometheus.Registerer, logger logg
 		Buckets:   instrument.DefBuckets,
 	}, instrument.HistogramCollectorBuckets))
 
-	requester := &http.Client{
-		Transport: cfg.Transport,
+	requester := lokiclient.NewRequester()
+	if httpClient, ok := requester.(*http.Client); ok {
+		if cfg.Transport != nil {
+			httpClient.Transport = cfg.Transport
+		}
+		if httpClient.Timeout == 0 {
+			httpClient.Timeout = defaultRequesterTimeout
+		}
 	}
 
 	gkLogger := logutil.ToGoKitLogger(logger)
