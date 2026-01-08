@@ -100,25 +100,30 @@ export const prometheusApi = alertingApi.injectEndpoints({
         title,
         searchGroupName,
         dashboardUid,
-      }) => ({
-        url: `api/prometheus/grafana/api/v1/rules`,
-        params: {
-          folder_uid: folderUid,
-          rule_group: groupName,
-          rule_name: ruleName,
-          receiver_name: contactPoint,
-          health: health,
-          state: state,
-          rule_type: type,
-          limit_alerts: limitAlerts,
-          rule_limit: ruleLimit?.toFixed(0),
-          group_limit: groupLimit?.toFixed(0),
-          group_next_token: groupNextToken,
-          'search.rule_name': title,
-          'search.rule_group': searchGroupName,
-          dashboard_uid: dashboardUid,
-        },
-      }),
+      }) => {
+        const ruleLimitParam =
+          Number.isFinite(ruleLimit) && ruleLimit >= 0 ? Math.floor(ruleLimit).toString() : undefined;
+
+        return {
+          url: `api/prometheus/grafana/api/v1/rules`,
+          params: {
+            folder_uid: folderUid,
+            rule_group: groupName,
+            rule_name: ruleName,
+            receiver_name: contactPoint,
+            health: health,
+            state: state,
+            rule_type: type,
+            limit_alerts: limitAlerts,
+            rule_limit: ruleLimitParam,
+            group_limit: groupLimit?.toFixed(0),
+            group_next_token: groupNextToken,
+            'search.rule_name': title,
+            'search.rule_group': searchGroupName,
+            dashboard_uid: dashboardUid,
+          },
+        };
+      },
       providesTags: (_result, _error, { folderUid, groupName, ruleName }) => {
         const folderKey = folderUid ?? '__any__';
         const groupKey = groupName ?? '__any__';
