@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
 	"regexp"
 	"sort"
 	"strings"
@@ -19,16 +20,18 @@ import (
 	"go.opentelemetry.io/otel/trace"
 
 	"github.com/grafana/grafana/apps/alerting/historian/pkg/apis/alertinghistorian/v0alpha1"
+	"github.com/grafana/grafana/apps/alerting/historian/pkg/app/config"
 	"github.com/grafana/grafana/apps/alerting/historian/pkg/app/logutil"
 )
 
 const (
-	LokiClientSpanName = "grafana.apps.alerting.historian.client"
-	defaultQueryRange  = 6 * time.Hour
-	defaultLimit       = 100
-	maxLimit           = 1000
-	Namespace          = "grafana"
-	Subsystem          = "alerting"
+	LokiClientSpanName      = "grafana.apps.alerting.historian.client"
+	defaultQueryRange       = 6 * time.Hour
+	defaultLimit            = 100
+	maxLimit                = 1000
+	defaultRequesterTimeout = 30 * time.Second
+	Namespace               = "grafana"
+	Subsystem               = "alerting"
 )
 
 var (
@@ -47,7 +50,7 @@ type LokiReader struct {
 	logger logging.Logger
 }
 
-func NewLokiReader(cfg lokiclient.LokiConfig, reg prometheus.Registerer, logger logging.Logger, tracer trace.Tracer) *LokiReader {
+func NewLokiReader(cfg config.LokiConfig, reg prometheus.Registerer, logger logging.Logger, tracer trace.Tracer) *LokiReader {
 	duration := instrument.NewHistogramCollector(promauto.With(reg).NewHistogramVec(prometheus.HistogramOpts{
 		Namespace: Namespace,
 		Subsystem: Subsystem,
@@ -56,9 +59,19 @@ func NewLokiReader(cfg lokiclient.LokiConfig, reg prometheus.Registerer, logger 
 		Buckets:   instrument.DefBuckets,
 	}, instrument.HistogramCollectorBuckets))
 
+	requester := lokiclient.NewRequester()
+	if httpClient, ok := requester.(*http.Client); ok {
+		if cfg.Transport != nil {
+			httpClient.Transport = cfg.Transport
+		}
+		if httpClient.Timeout == 0 {
+			httpClient.Timeout = defaultRequesterTimeout
+		}
+	}
+
 	gkLogger := logutil.ToGoKitLogger(logger)
 	return &LokiReader{
-		client: lokiclient.NewLokiClient(cfg, lokiclient.NewRequester(), nil, duration, gkLogger, tracer, LokiClientSpanName),
+		client: lokiclient.NewLokiClient(cfg.LokiConfig, requester, nil, duration, gkLogger, tracer, LokiClientSpanName),
 		logger: logger,
 	}
 }
