@@ -1,6 +1,6 @@
 import { store } from '@grafana/data';
 import { config } from '@grafana/runtime';
-import { extractDatasourceTypesFromUrl } from 'app/features/dashboard/dashgrid/DashboardLibrary/utils/communityDashboardHelpers';
+import { extractDatasourceTypesFromUrl } from 'app/features/dashboard/utils/trackingUrlParams';
 
 import { DashboardScene } from '../scene/DashboardScene';
 import { EditableDashboardElementInfo } from '../scene/types/EditableDashboardElement';
